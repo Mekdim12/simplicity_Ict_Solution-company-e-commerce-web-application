@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.HomePage, name='main'),
     path('public/aboutus',views.PublicAboutUs , name ='PublicAboutUs'),
     path('public/contactus', views.PublicContactUs, name ='PublicContactUs'),
-    path('login', views.Login, name ='logins'),
-    path('signup',views.SignUp, name = 'signup')
+    path('login/', views.Login, name ='login'),
+    path('signup',views.SignUp, name = 'signup'),
+    path('public/dashboard',views.dashBoard, name="dashboard")
 ]

@@ -1,0 +1,23 @@
+{% extends 'MainApplication/Main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<script>
+
+   window.addEventListener("load", function () {
+      document.getElementById("dashboard").style.removeProperty("display");
+      document.getElementById("signup").style.display = "none";
+
+   }, false);
+
+</script>
+
+<div class="container-fluid">
+
+
+    
+</div>
+
+{% endblock %}

@@ -23,13 +23,15 @@
                     <div class="col-md-9 register-right">
                         <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Customer</a>
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" onclick = "homeClicked();" role="tab" aria-controls="home" aria-selected="true">Customer</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Staff</a>
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" onclick = "away();" aria-controls="profile" aria-selected="false">Staff</a>
                             </li>
                         </ul>
-
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <input type="text" id="checker" name= "CHECKER" value="home" hidden />
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 
@@ -38,17 +40,17 @@
                                 <div class="row register-form center-block">
                                     <div class="col-xxl-9 ">
                                         <div class="form-group align-items-center">
-                                            <input type="email" class="form-control" placeholder="Email" value="" />
+                                            <input type="email" class="form-control" name="guest_Email" placeholder="Email" value="" />
                                         </div>
                                         
                                         <div class="form-group">
-                                            <input type="password" class="form-control" placeholder="Password *" value="" />
+                                            <input type="password" class="form-control" name= "guest_password" placeholder="Password *" value="" />
                                         </div>
 
                                         <div class="form-group">
                                             <div class="maxl">
                                                 <label class="radio inline"> 
-                                                    <input type="checkbox" name="remberme"  unchecked>
+                                                    <input type="checkbox" name="remberme" value="on" unchecked>
                                                     <span> Remember Me </span>
                                                     
                                                 </label>
@@ -62,7 +64,7 @@
 
                                             <div class="col-4"></div>
                                             <div class="col-4">
-                                                <input type="submit" class="btnRegister"  value="Login"/>
+                                                <input type="submit" " class="btnRegister"  value="Login"/>
                                 
                                             </div>
                                             <div class="col-4"></div>
@@ -78,17 +80,17 @@
                                 <div class="row register-form center-block">
                                     <div class="col-xxl-9 ">
                                         <div class="form-group align-items-center">
-                                            <input type="email" class="form-control" placeholder="User Name" value="" />
+                                            <input type="email" name = "UserName_staff" class="form-control" placeholder="User Name/ ID" value="" />
                                         </div>
                                         
                                         <div class="form-group">
-                                            <input type="password" class="form-control" placeholder="Password *" value="" />
+                                            <input type="password" class="form-control"  name="password_staff" placeholder="Password *" value="" />
                                         </div>
 
                                         <div class="form-group">
                                             <div class="maxl">
                                                 <label class="radio inline"> 
-                                                    <input type="checkbox" name="remberme"  unchecked>
+                                                    <input type="checkbox" name="remberme_staff"  unchecked>
                                                     <span> Remember Me </span> 
                                                 </label>
                                                 <p class="text-end"> <a href="#"> Do You Forget Your Password ? </a></p>
@@ -111,6 +113,7 @@
 
                             </div>
                         </div>
+                    </form>
                     </div>
                 </div>
 </div>

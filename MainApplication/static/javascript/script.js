@@ -1,4 +1,24 @@
 // ---------Responsive-navbar-active-animation-----------
+function customerLoginNaviagationCahnger(){
+	alert("this is this");
+	document.getElementById("dashboard").style.removeProperty("display");
+	document.getElementById("signup").style.display = "none";
+
+}
+
+
+
+
+function homeClicked(){
+	document.getElementById('checker').value = "home";
+}
+
+
+function away(){
+	document.getElementById('checker').value = "away";
+}
+
+
 function test(){
 	var tabsNewAnim = $('#navbarSupportedContent');
 	var selectorNewAnim = $('#navbarSupportedContent').find('li').length;
