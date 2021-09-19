@@ -235,22 +235,29 @@ def dashBoard(request):
     currentTime = datetime.datetime.now()
 
     if currentTime.hour < 12:
-         print('Good morning.')
+        greetingMessage = 'Good morning.'
     elif 12 <= currentTime.hour < 18:
-        print('Good afternoon.')
+        greetingMessage = 'Good afternoon.'
     else:
-        print('Good evening.')
+        greetingMessage = 'Good evening.'
         
 
         
         
     
 
+    context = {"name":fullName, "greeting":greetingMessage}
     
-    
-    return render(request,'MainApplication/public/DashBoardCustomer.html')
+    return render(request,'MainApplication/public/DashBoardCustomer.html', context)
 
 
+
+
+def Shop(request):
+    return render (request, "MainApplication/public/Shop.html" )
+
+def Cart(request):
+    return render (request, "MainApplication/public/Cart.html" )
 
 
 # https://stackoverflow.com/questions/69217118/getting-specific-errors-type-message-from-httperror-while-working-django-fireba

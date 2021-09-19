@@ -6,18 +6,390 @@
 {% block content %}
 <script>
 
-   window.addEventListener("load", function () {
-      document.getElementById("dashboard").style.removeProperty("display");
-      document.getElementById("signup").style.display = "none";
+    window.addEventListener("load", function () {
+        document.getElementById("dashboard").style.removeProperty("display");
+        document.getElementById("signup").style.display = "none";
 
-   }, false);
+    }, false);
 
 </script>
-
 <div class="container-fluid">
+    <div class="row">
+
+        <div class="col-12 mt-5">
+            <div class="row mt-3">
+                <div class="col-lg-2 my-5 mx-0">
+
+                    <img style="border-radius: 50%;"
+                        src="data:image/jpeg;base64,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" />
+                </div>
+
+                <div class="col-lg-10 ">
+
+                    <div class="row">
+                        <div class="col-10 mt-3 mx-0 text-left text-black ">
+                            <div class="">
+                                <h5 class="card-title text-left">{{ greeting }}, {{ name }}</h5>
+
+                            </div>
+                        </div>
+
+                        <div class="col-2 mt-3 mx-0 text-left text-black ">
+                            <div class="">
+                                <h5 class="card-title text-left">5:55:55 pm</h5>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row mt-4 ">
+                        <div class="col-4 mr-1">
+                            <div class="row card-header text-center bg-primary">
+                                <div class="card-tittle ">
+                                    <h1>Total Orders </h1>
+                                </div>
+                            </div>
+                            <div class="row card-body text-center bg-info">
+                                <div class="card-tittle">
+                                    <h3> 5 </h3>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-4 mr-1">
+                            <div class="row card-header text-center bg-primary">
+                                <div class="card-tittle ">
+                                    <h1>Total Orders </h1>
+                                </div>
+                            </div>
+                            <div class="row card-body text-center bg-info">
+                                <div class="card-tittle">
+                                    <h3> 5 </h3>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-4 ">
+                            <div class="row card-header text-center bg-primary">
+                                <div class="card-tittle ">
+                                    <h1>Total Orders </h1>
+                                </div>
+                            </div>
+                            <div class="row card-body text-center bg-info">
+                                <div class="card-tittle">
+                                    <h3> 5 </h3>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="container-fluid">
+<div class="row">
+    <div class="row" style="overflow:scroll;">
+        <div class="col-9" style="height: 100vh; overflow:scroll;">
+
+            <p class="h1"> Products </p>
+            <div class="row my-4 ">
+        
+                <div class="col-4">
+                    <img style="width: 100%; height: 100%;"
+                        src="https://img1.wsimg.com/isteam/ip/5ea3644f-e49c-43f7-b4dc-808b6c0c9eff/our%20product%20box.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:400,cg:true/qt=q:21"
+                        alt="">
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <h1> Product Name </h1>
+                    </div>
+                    <div class="row">
+                        <p>Rating <span> ⭐⭐⭐⭐⭐ </span></p>
+                    </div>
+                    <div class="row text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id explicabo, eveniet culpa, pariatur at
+                        reiciendis incidunt quidem cupiditate blanditiis, nostrum sunt tempora. Enim corporis laudantium
+                        mollitia voluptas doloribus aliquid eligendi?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias eaque laboriosam qui quis quam vitae
+                        dolorem vel, totam quibusdam? Suscipit veritatis reprehenderit, ut ipsum saepe consectetur architecto
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla nemo maxime voluptatum, officia
+                        consequatur necessitatibus veniam quisquam ipsum. Impedit est, recusandae error ipsa nisi quas neque
+                        incidunt illo fugiat explicabo.
+                        eum autem numquam.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit sunt commodi repellat id praesentium, et
+                        sed nobis cumque pariatur quod harum iste iure mollitia quam aliquid consequatur qui numquam suscipit?
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit omnis voluptates, delectus quo
+                        perferendis dolor, doloribus odio dolore sed consectetur beatae laborum laboriosam autem provident
+                        facere, cum iusto reiciendis sapiente!
+                    </div>
+                    <div class="row bg-primary m-2" style="line-height:50px;">
+        
+                        <div class="col-3">Catagory:catagory</div>
+                        <div class="col-3">Status:Status</div>
+                        <div class="col-3">Price: 1500 </div>
+                        <div class="col-3"> <a class="btn btn-sm btn-dark" href="#"> Add To Cart</a></div>
+        
+                    </div>
+                </div>
+        
+            </div>
+            <div class="row my-4 ">
+        
+                <div class="col-4">
+                    <img style="width: 100%; height: 100%;"
+                        src="https://img1.wsimg.com/isteam/ip/5ea3644f-e49c-43f7-b4dc-808b6c0c9eff/our%20product%20box.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:400,cg:true/qt=q:21"
+                        alt="">
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <h1> Product Name </h1>
+                    </div>
+                    <div class="row">
+                        <p>Rating <span> ⭐⭐⭐⭐⭐ </span></p>
+                    </div>
+                    <div class="row text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id explicabo, eveniet culpa, pariatur at
+                        reiciendis incidunt quidem cupiditate blanditiis, nostrum sunt tempora. Enim corporis laudantium
+                        mollitia voluptas doloribus aliquid eligendi?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias eaque laboriosam qui quis quam vitae
+                        dolorem vel, totam quibusdam? Suscipit veritatis reprehenderit, ut ipsum saepe consectetur architecto
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla nemo maxime voluptatum, officia
+                        consequatur necessitatibus veniam quisquam ipsum. Impedit est, recusandae error ipsa nisi quas neque
+                        incidunt illo fugiat explicabo.
+                        eum autem numquam.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit sunt commodi repellat id praesentium, et
+                        sed nobis cumque pariatur quod harum iste iure mollitia quam aliquid consequatur qui numquam suscipit?
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit omnis voluptates, delectus quo
+                        perferendis dolor, doloribus odio dolore sed consectetur beatae laborum laboriosam autem provident
+                        facere, cum iusto reiciendis sapiente!
+                    </div>
+                    <div class="row bg-primary m-2" style="line-height:50px;">
+        
+                        <div class="col-3">Catagory:catagory</div>
+                        <div class="col-3">Status:Status</div>
+                        <div class="col-3">Price: 1500 </div>
+                        <div class="col-3"> <a class="btn btn-sm btn-dark" href="#"> Add To Cart</a></div>
+        
+                    </div>
+                </div>
+        
+            </div>
+            <div class="row my-4 ">
+        
+                <div class="col-4">
+                    <img style="width: 100%; height: 100%;"
+                        src="https://img1.wsimg.com/isteam/ip/5ea3644f-e49c-43f7-b4dc-808b6c0c9eff/our%20product%20box.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:400,cg:true/qt=q:21"
+                        alt="">
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <h1> Product Name </h1>
+                    </div>
+                    <div class="row">
+                        <p>Rating <span> ⭐⭐⭐⭐⭐ </span></p>
+                    </div>
+                    <div class="row text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id explicabo, eveniet culpa, pariatur at
+                        reiciendis incidunt quidem cupiditate blanditiis, nostrum sunt tempora. Enim corporis laudantium
+                        mollitia voluptas doloribus aliquid eligendi?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias eaque laboriosam qui quis quam vitae
+                        dolorem vel, totam quibusdam? Suscipit veritatis reprehenderit, ut ipsum saepe consectetur architecto
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla nemo maxime voluptatum, officia
+                        consequatur necessitatibus veniam quisquam ipsum. Impedit est, recusandae error ipsa nisi quas neque
+                        incidunt illo fugiat explicabo.
+                        eum autem numquam.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit sunt commodi repellat id praesentium, et
+                        sed nobis cumque pariatur quod harum iste iure mollitia quam aliquid consequatur qui numquam suscipit?
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit omnis voluptates, delectus quo
+                        perferendis dolor, doloribus odio dolore sed consectetur beatae laborum laboriosam autem provident
+                        facere, cum iusto reiciendis sapiente!
+                    </div>
+                    <div class="row bg-primary m-2" style="line-height:50px;">
+        
+                        <div class="col-3">Catagory:catagory</div>
+                        <div class="col-3">Status:Status</div>
+                        <div class="col-3">Price: 1500 </div>
+                        <div class="col-3"> <a class="btn btn-sm btn-dark" href="#"> Add To Cart</a></div>
+        
+                    </div>
+                </div>
+        
+            </div>
+            <p class="h1"> Services </p>
+
+            <div class="row my-4 ">
+        
+                <div class="col-4">
+                    <img style="width: 100%; height: 100%;"
+                        src="https://img1.wsimg.com/isteam/ip/5ea3644f-e49c-43f7-b4dc-808b6c0c9eff/our%20product%20box.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:400,cg:true/qt=q:21"
+                        alt="">
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <h1> Product Name </h1>
+                    </div>
+                    <div class="row">
+                        <p>Rating <span> ⭐⭐⭐⭐⭐ </span></p>
+                    </div>
+                    <div class="row text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id explicabo, eveniet culpa, pariatur at
+                        reiciendis incidunt quidem cupiditate blanditiis, nostrum sunt tempora. Enim corporis laudantium
+                        mollitia voluptas doloribus aliquid eligendi?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias eaque laboriosam qui quis quam vitae
+                        dolorem vel, totam quibusdam? Suscipit veritatis reprehenderit, ut ipsum saepe consectetur architecto
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla nemo maxime voluptatum, officia
+                        consequatur necessitatibus veniam quisquam ipsum. Impedit est, recusandae error ipsa nisi quas neque
+                        incidunt illo fugiat explicabo.
+                        eum autem numquam.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit sunt commodi repellat id praesentium, et
+                        sed nobis cumque pariatur quod harum iste iure mollitia quam aliquid consequatur qui numquam suscipit?
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit omnis voluptates, delectus quo
+                        perferendis dolor, doloribus odio dolore sed consectetur beatae laborum laboriosam autem provident
+                        facere, cum iusto reiciendis sapiente!
+                    </div>
+                    <div class="row bg-primary m-2" style="line-height:50px;">
+        
+                        <div class="col-3">Catagory:catagory</div>
+                        <div class="col-3">Status:Status</div>
+                        <div class="col-3">Price: 1500 </div>
+                        <div class="col-3"> <a class="btn btn-sm btn-dark" href="#"> Add To Cart</a></div>
+        
+                    </div>
+                </div>
+        
+            </div>
+            <div class="row my-4 ">
+        
+                <div class="col-4">
+                    <img style="width: 100%; height: 100%;"
+                        src="https://img1.wsimg.com/isteam/ip/5ea3644f-e49c-43f7-b4dc-808b6c0c9eff/our%20product%20box.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:400,cg:true/qt=q:21"
+                        alt="">
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <h1> Product Name </h1>
+                    </div>
+                    <div class="row">
+                        <p>Rating <span> ⭐⭐⭐⭐⭐ </span></p>
+                    </div>
+                    <div class="row text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id explicabo, eveniet culpa, pariatur at
+                        reiciendis incidunt quidem cupiditate blanditiis, nostrum sunt tempora. Enim corporis laudantium
+                        mollitia voluptas doloribus aliquid eligendi?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias eaque laboriosam qui quis quam vitae
+                        dolorem vel, totam quibusdam? Suscipit veritatis reprehenderit, ut ipsum saepe consectetur architecto
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla nemo maxime voluptatum, officia
+                        consequatur necessitatibus veniam quisquam ipsum. Impedit est, recusandae error ipsa nisi quas neque
+                        incidunt illo fugiat explicabo.
+                        eum autem numquam.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit sunt commodi repellat id praesentium, et
+                        sed nobis cumque pariatur quod harum iste iure mollitia quam aliquid consequatur qui numquam suscipit?
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit omnis voluptates, delectus quo
+                        perferendis dolor, doloribus odio dolore sed consectetur beatae laborum laboriosam autem provident
+                        facere, cum iusto reiciendis sapiente!
+                    </div>
+                    <div class="row bg-primary m-2" style="line-height:50px;">
+        
+                        <div class="col-3">Catagory:catagory</div>
+                        <div class="col-3">Status:Status</div>
+                        <div class="col-3">Price: 1500 </div>
+                        <div class="col-3"> <a class="btn btn-sm btn-dark" href="#"> Add To Cart</a></div>
+        
+                    </div>
+                </div>
+        
+            </div>
+            <div class="row my-4 ">
+        
+                <div class="col-4">
+                    <img style="width: 100%; height: 100%;"
+                        src="https://img1.wsimg.com/isteam/ip/5ea3644f-e49c-43f7-b4dc-808b6c0c9eff/our%20product%20box.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:400,cg:true/qt=q:21"
+                        alt="">
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <h1> Product Name </h1>
+                    </div>
+                    <div class="row">
+                        <p>Rating <span> ⭐⭐⭐⭐⭐ </span></p>
+                    </div>
+                    <div class="row text-center">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id explicabo, eveniet culpa, pariatur at
+                        reiciendis incidunt quidem cupiditate blanditiis, nostrum sunt tempora. Enim corporis laudantium
+                        mollitia voluptas doloribus aliquid eligendi?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias eaque laboriosam qui quis quam vitae
+                        dolorem vel, totam quibusdam? Suscipit veritatis reprehenderit, ut ipsum saepe consectetur architecto
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla nemo maxime voluptatum, officia
+                        consequatur necessitatibus veniam quisquam ipsum. Impedit est, recusandae error ipsa nisi quas neque
+                        incidunt illo fugiat explicabo.
+                        eum autem numquam.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit sunt commodi repellat id praesentium, et
+                        sed nobis cumque pariatur quod harum iste iure mollitia quam aliquid consequatur qui numquam suscipit?
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit omnis voluptates, delectus quo
+                        perferendis dolor, doloribus odio dolore sed consectetur beatae laborum laboriosam autem provident
+                        facere, cum iusto reiciendis sapiente!
+                    </div>
+                    <div class="row bg-primary m-2" style="line-height:50px;">
+        
+                        <div class="col-3">Catagory:catagory</div>
+                        <div class="col-3">Status:Status</div>
+                        <div class="col-3">Price: 1500 </div>
+                        <div class="col-3"> <a class="btn btn-sm btn-dark" href="#"> Add To Cart</a></div>
+        
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
+        <div class="col-3" style="position: sticky; height: 100vh;">
+        
+            <h3 class="bg-primary">Search For Products </h3>
+            <p class="text-muted"> Filter Using</p>
+            <h3 class="text-muted">Catagory</h3>
+            <label for="first"> <input type="checkbox" name="first" id="">  First</label>
+            <label for="second"> <input type="checkbox" name="second" id="">  Second</label>
+            <label for="third"><input type="checkbox" name="third" id=""> Third </label>
+            <label for="fourth"><input type="checkbox" name="fourth" id="">  Fourth </label>
+
+            <h3>Price</h3>
+            <input type="text" placeholder="less Than <=" name="" id=""><br>
+            <input type="text" placeholder="greater Than >= " name="" id="">
+                
+            <span> Search <input type="search" name="" id=""> </span>
+            <br><br><br>
+
+            <h3 class="bg-primary">Search For Services </h3>
+            <p class="text-muted"> Filter Using</p>
+            <h3 class="text-muted">Catagory</h3>
+            <label for="first"> <input type="checkbox" name="first" id="">  First</label>
+            <label for="second"> <input type="checkbox" name="second" id="">  Second</label>
+            <label for="third"><input type="checkbox" name="third" id=""> Third </label>
+            <label for="fourth"><input type="checkbox" name="fourth" id="">  Fourth </label>
+
+            <h3>Price</h3>
+            <input type="text" placeholder="less Than <=" name="" id=""><br>
+            <input type="text" placeholder="greater Than >= " name="" id="">
+            
+            <span> Search <input type="search" name="" id=""> </span>
+        </div>
+    </div>
+   
 
 
     
+
+</div>
 </div>
 
 {% endblock %}

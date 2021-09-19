@@ -1,0 +1,143 @@
+{% extends 'MainApplication/Main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<script>
+
+    window.addEventListener("load", function () {
+        document.getElementById("dashboard").style.removeProperty("display");
+        document.getElementById("signup").style.display = "none";
+
+    }, false);
+
+</script>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">  
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">  
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>  
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"> </script>   -->
+
+<div class="container main-section">
+    <div class="row">
+        <div class="col-lg-12 pb-2">
+            <h2> Shopping Cart Design teamplate Using Bootstrap - Codeplaners </h2>
+        </div>
+        <div class="col-lg-12 pl-3 pt-3">
+            <table class="table table-hover border bg-white">
+                <thead>
+                    <tr>
+                        <th>
+                            <h4> <b> Product Details </b> </h4>
+                        </th>
+                        <th>
+                            <h4> <b> Price </b></h4>
+                        </th>
+                        <th style="width:10%;">
+                            <h4> </b> Quantity </b> </h4>
+                        </th>
+                        <th>
+                            <h4> <b> Subtotal </b> </h4>
+                        </th>
+                        <th>
+                            <h4> <b> Action </b> </h4>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-2 Product-img">
+                                    <img src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                        alt="..." class="img-responsive" />
+                                </div>
+                                <div class="col-lg-10">
+                                    <h5 class="nomargin"> <b> Lenovo K6 Power </b> </h5>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                        tempor incididunt ut labore et dolore magna aliqua. </p>
+                                </div>
+                            </div>
+                        </td>
+                        <td> <strong> 50,000 </strong> </td>
+                        <td data-th="Quantity">
+                            <b> <input type="number" class="form-control text-center" value="1"> </b>
+                        </td>
+                        <td> <strong> 50,000 </strong> </td>
+                        <td class="actions" data-th="" style="width:10%;">
+                            <button class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-shopping-cart">
+                                </span> </button>
+                            <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"> </i> </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-2 Product-img">
+                                    <img src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                        alt="..." class="img-responsive" />
+                                </div>
+                                <div class="col-lg-10">
+                                    <h5 class="nomargin"> <b> Iphone 6s </b> </h5>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                        tempor incididunt ut labore et dolore magna aliqua. </p>
+                                </div>
+                            </div>
+                        </td>
+                        <td> <strong> 30,000 </strong> </td>
+                        <td data-th="Quantity">
+                            <b> <input type="number" class="form-control text-center" value="1"> </b>
+                        </td>
+                        </td>
+                        <td> <strong> 30,000 </strong> </td>
+                        <td class="actions" data-th="" style="width:10%;">
+                            <button class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-shopping-cart">
+                                </span> </button>
+                            <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"> </i> </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-2 Product-img">
+                                    <img src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                        alt="..." class="img-responsive">
+                                </div>
+                                <div class="col-lg-10">
+                                    <h5 class="nomargin"> <b> Lenovo K6 Power </b> </h5>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                        tempor incididunt ut labore et dolore magna aliqua. </p>
+                                </div>
+                            </div>
+                        </td>
+                        <td> <strong> 50,000 </strong> </td>
+                        <td data-th="Quantity">
+                            <b> <input type="number" class="form-control text-center" value="1"> </b>
+                        </td>
+                        </td>
+                        <td> <strong> 50,000 </strong> </td>
+                        <td class="actions" data-th="" style="width:10%;">
+                            <button class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-shopping-cart">
+                                </span> </button>
+                            <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"> </i> </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td> <a href="#" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Continue Shopping
+                            </a> </td>
+                        <td colspan="2" class="hidden-xs"> </td>
+                        <td class="hidden-xs text-center" style="width:10%;"> <strong> Total Price : 1,30,000 </strong>
+                        </td>
+                        <td> <a href="#" class="btn btn-success btn-block"> Checkout <i class="fa fa-angle-right"> </i>
+                            </a> </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
