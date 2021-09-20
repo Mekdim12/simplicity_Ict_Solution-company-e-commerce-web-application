@@ -14,5 +14,8 @@ urlpatterns = [
     path('signup',views.SignUp, name = 'signup'),
     path('public/dashboard',views.dashBoard, name="dashboard"),
     path('public/shop',views.Shop, name="shop"),
-     path('public/cart',views.Cart, name="cart")
+    path('public/cart',views.Cart, name="cart"),
+    path('public/nocart',views.NoCart, name="nocart"),
+    path('private/staff/dashboardstaff',views.DashBoardStaff, name="dashboardstaff")
+
 ]

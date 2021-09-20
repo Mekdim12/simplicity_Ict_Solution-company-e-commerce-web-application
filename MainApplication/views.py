@@ -260,4 +260,18 @@ def Cart(request):
     return render (request, "MainApplication/public/Cart.html" )
 
 
+def NoCart(request):
+    return render(request,  "MainApplication/public/cartEmpty.html")
+
+
+
+
+def DashBoardStaff(request):
+    return render(request, "MainApplication/private/staff/DashBoardStaff.html")
+
+
+
+    
+
+
 # https://stackoverflow.com/questions/69217118/getting-specific-errors-type-message-from-httperror-while-working-django-fireba

@@ -1,0 +1,206 @@
+{% extends 'MainApplication/Main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<div class="row mx-3 my-2">
+    <div class="col">
+        <div class="col-md ">
+            <div class="bg-info card text-center text-white  mb-3" id="total-orders">
+                <div class="card-header">
+                    <h5 class="card-title">Total Customers</h5>
+
+                </div>
+                <div class="card-body">
+
+                    <h3 class="card-title">0</h3>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card  bg-info  text-center text-white  mb-3" id="orders-delivered">
+                <div class="card-header">
+                    <h5 class="card-title">Active Customers</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">0</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card  bg-info text-center text-white  mb-3" id="orders-pending">
+                <div class="card-header">
+                    <h5 class="card-title">Engaging Customers</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">0</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="accordion" id="accordionExample">
+    <div class="single-faq">
+        <button class="w-100 text-start bg-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne">
+            Current Item In Recent Projects
+        </button>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="faq-content">
+
+                <div class="row mx-3">
+                    <table class="table-striped table-bordered ">
+                        <thead class="bg-success">
+                            <tr>
+                                <th>
+
+                                </th>
+                                <th>
+                                    <h4> <b> Feedback Details </b> </h4>
+                                </th>
+                                
+                                
+                                <th>
+                                    <h4> <b> Action </b> </h4>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class=" Product-img ">
+                                        <img style="border: 2px black solid;" src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                            alt="..." class="img-responsive">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-10">
+                                            <h3 class="nomargin"> <b> Abysinai Bank</b> </h3>
+                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua. </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                
+                               
+                            
+                                <td class="actions" data-th="" >
+                                    <button class="btn btn-info btn-lg"> <span class="glyphicon glyphicon-shopping-cart">
+                                        </span> </button>
+                                    <button class="btn btn-danger btn-lg"> <i class="fa fa-trash-o"> </i> </button>
+                                </td>
+                            </tr>
+                            <tr class="mb-5" >
+                                <td>
+                                    <div class=" Product-img ">
+                                        <img style="border: 2px black solid;" src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                            alt="..." class="img-responsive">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-10">
+                                            <h3 class=""> <b> Abysinai Bank</b> </h3>
+                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua. </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                
+                               
+                            
+                                <td class="actions" data-th="" >
+                                    <button class="btn btn-info btn-lg"> <span class="glyphicon glyphicon-shopping-cart">
+                                        </span> </button>
+                                    <button class="btn btn-danger btn-lg"> <i class="fa fa-trash-o"> </i> </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class=" Product-img ">
+                                        <img style="border: 2px black solid;" src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                            alt="..." class="img-responsive">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-10">
+                                            <h3 class="nomargin"> <b> Abysinai Bank</b> </h3>
+                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua. </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                
+                               
+                            
+                                <td class="actions" data-th="" >
+                                    <button class="btn btn-info btn-lg"> <span class="glyphicon glyphicon-shopping-cart">
+                                        </span> </button>
+                                    <button class="btn btn-danger btn-lg"> <i class="fa fa-trash-o"> </i> </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="single-faq">
+        <button class="w-100 text-start collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+            aria-expanded="false" aria-controls="collapseTwo">
+            What I need to start design?
+        </button>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="faq-content">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+                brunch.
+            </div>
+        </div>
+    </div>
+    <div class="single-faq">
+        <button class="w-100 text-start collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            What is our design process?
+        </button>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="faq-content">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+                brunch.
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
