@@ -1,0 +1,67 @@
+
+{% load static %}
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+crossorigin="anonymous"></script>
+
+
+
+<div style=" width: 1000; height: 90vh; " class="container mt-5 mx-5">
+    
+    <div class="row" style="margin-left: 300;">
+          <a class="btn btn-lg btn-info"  style="margin-left: auto; margin-right: auto; width: 100%; height: 50px; text-align: center;"  href="{% url 'dashboardstaff' %}"> Back</a> 
+    
+        <fieldset class="border p-2" style="border: 1px solid #ddd !important; padding: 5px !important;">
+        <legend  class="w-auto" style="width: inherit; padding: 0 10px; border: none;">  Full Detail </legend>
+
+            <div class="form group">
+                <label for="name"> <h4> Customer Name </h4></label>
+
+                 <p id="name" name="name"> Mekdim tamirat</p>
+            </div>
+
+            <div class="form-group">
+                <label for="date"> <h4> Date Given </h4></label>
+                <p id="date" name="date"> 22/september/2014</p>
+            
+            </div>
+            <div class="form-group">
+                <label for="detail"> <h4>Full Comment </h4> </label>
+
+                <textarea id="comment"class="form-control" name="detail" style="resize: none;"   cols="30" rows="10"></textarea>
+            </div>
+
+    </fieldset>
+</div>
+
+</div>
+
+{% for key ,value in temp.items %}
+
+{% if key == 'name' %}
+    <script>
+
+        var object = document.getElementById('name').value = '{{ value }}'
+
+    </script>
+{% elif key == 'createdOn' %}
+    <script>
+
+        var object = document.getElementById('date').value = '{{ value }}'
+
+    </script>
+{% elif key == 'comment' %}
+    <script>
+
+        var object = document.getElementById('comment').value = '{{ value }}'
+
+    </script>
+{% endif %}
+
+{% endfor %}

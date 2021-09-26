@@ -1,0 +1,211 @@
+{% extends 'MainApplication/Main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<style>
+    .comp td {
+        padding: 10px;
+
+    }
+</style>
+
+<br>
+<div style="margin-top: 40px;" class="container-fluid ">
+
+    <div class="row">
+
+        <div class="col-10">
+            <div class="row bg-primary">
+                <div class="col-10 ">
+                    <h2>List Of available Products</h2>
+                </div>
+                <div class="col-2"> <button class="bg-success my-2"> <a href="{% url 'formforproducts' '-1' %}"> Add Item </a></button> </div>
+            </div>
+
+
+            <div class="row " style="overflow: scroll;">
+                <div class="col" style="height: 100vh;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <h5>Product Name</h5>
+                                </th>
+                                <th>
+                                    <h5>Description</h5>
+                                </th>
+                                <th>
+                                    <h5>Product Type </h5>
+                                </th>
+                                <th>
+                                    <h5>Date Created</h5>
+                                </th>
+                                <th>
+                                    <h5>Price</h5>
+                                </th>
+                                <th>
+                                    <h5>Rating</h5>
+                                </th>
+                                <th>
+                                    <h5>Update</h5>
+                                </th>
+                                <th>
+                                    <h5>Remove</h5>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in product.items %}
+
+
+                            <tr class="comp" name="">
+                                <td>
+                                    <img style="border: 2px solid ;  width: 80px; height: 80px; border-radius: 50%; "
+                                        src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                        alt="">
+                                </td>
+                              
+                                {% for k,v in value.items %}
+                                    {% if k == 'Description' %}
+                                        <td class="w-100">{{ v }}</td>
+                                    {% elif k == 'PriceType' %}
+                                        
+                                    {% else %}
+                                    <td>{{v}}</td>
+
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                    <button class="bg-info"> <a href="{% url 'formforproducts'  key  %}"> Edit </a></button>
+                                </td>
+                               
+                                <td> 
+                                    
+                                    <button class="bg-danger"><a href="{% url 'deleteprod' key %}"> Remove </a> </button>
+                                </td>
+
+                             </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+
+
+            <div class="row bg-primary">
+                <div class="col-10 ">
+                    <h2>List Of available Services</h2>
+                </div>
+                <div class="col-2"> <button class="bg-success my-2"> <a href="{% url 'formservices' '-1' %}"> Add Item
+                        </a> </button> </div>
+            </div>
+
+            <div class="row " style="overflow: scroll;">
+                <div class="col" style="height: 100vh;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <h5>Service Name</h5>
+                                </th>
+                                <th>
+                                    <h5>Description</h5>
+                                </th>
+                                <th>
+                                    <h5>Service Type </h5>
+                                </th>
+                                <th>
+                                    <h5>Date Created</h5>
+                                </th>
+                                <th>
+                                    <h5>Price</h5>
+                                </th>
+                                <th>
+                                    <h5>Rating</h5>
+                                </th>
+                                <th>
+                                    <h5>Update</h5>
+                                </th>
+                                <th>
+                                    <h5>Remove</h5>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                          
+                                    
+
+                            {% for key, value in service.items %}
+
+
+                            <tr class="comp" name="">
+                                <td>
+                                    <img style="border: 2px solid ;  width: 80px; height: 80px; border-radius: 50%; "
+                                        src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                        alt="">
+                                </td>
+                              
+                                {% for k,v in value.items %}
+                                    {% if k == 'Description' %}
+                                        <td class="w-100">{{ v }}</td>
+                                    {% elif k == 'PriceType' %}
+                                        
+                                    {% else %}
+                                    <td>{{v}}</td>
+
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                    <button class="bg-info"> <a href="{% url 'formservices'  key  %}"> Edit </a></button>
+                                </td>
+                               
+                                <td> 
+                                    
+                                    <button class="bg-danger"><a href="{% url 'deleteitem' key %}"> Remove </a> </button>
+                                </td>
+
+                             </tr>
+                                {% endfor %}
+
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+        <div style="border:2px solid black; height: 220vh;" class="col-2">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock %}

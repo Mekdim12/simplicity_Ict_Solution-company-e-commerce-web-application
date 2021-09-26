@@ -1,0 +1,102 @@
+{% extends 'MainApplication/Main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+
+    .height {
+        height: 125px;
+    }
+
+    .search {
+        position: relative;
+        box-shadow: 0 0 40px rgba(51, 51, 51, .1)
+    }
+
+    .search input {
+        height: 60px;
+        text-indent: 25px;
+        border: 2px solid #d6d4d4
+    }
+
+    .search input:focus {
+        box-shadow: none;
+        border: 2px solid blue
+    }
+
+    .search .fa-search {
+        position: absolute;
+        top: 20px;
+        left: 16px
+    }
+
+    .search button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        height: 50px;
+        width: 110px;
+        background: blue
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-12">
+            <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control"
+                    placeholder="Enter The Name of Product or Services"> <button class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+
+    <table  class="table table-sm table-responsive table-striped ">
+        <tr class="bg-warning">
+            <th></th>
+            <th>Product or Service</th>
+            <th>Customer Name</th>
+            <th>Date</th>
+            <th>Accept</th>
+            <th>Remove</th>
+            
+        </tr>
+        
+        
+            <tr class="my-3">
+                <td>
+                    <img style="border: 2px solid ;  width: 80px; height: 80px; border-radius: 50%; "  src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png" alt="">
+                </td>
+                <td style="vertical-align:middle ;"> prod</td>
+                <td style="vertical-align:middle ;"> psdkjfnskj </td>
+                <td style="vertical-align:middle ;"> that </td>
+                <td style="vertical-align:middle ;"><a class ="btn btn-sm btn btn-info" href=""> accept & view Customer infn  </a></td>
+                <td style="vertical-align:middle ;"><a class ="btn btn-sm btn btn-danger" href=""> Remove </a></td>
+                
+            </tr>
+            
+           <tr>
+            <td>
+                <img style="border: 2px solid ;  width: 80px; height: 80px; border-radius: 50%; "  src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png" alt="">
+            </td>
+            <td style="vertical-align:middle ;"> prod</td>
+            <td style="vertical-align:middle ;"> psdkjfnskj </td>
+            <td style="vertical-align:middle ;"> that </td>
+            <td style="vertical-align:middle ;"><a class ="btn btn-sm btn btn-info" href=""> accept & view Customer infn  </a></td>
+            <td style="vertical-align:middle ;"><a class ="btn btn-sm btn btn-danger" href=""> Remove </a></td>
+            
+       </tr>
+    </table>
+
+
+</div>
+
+
+{% endblock %}

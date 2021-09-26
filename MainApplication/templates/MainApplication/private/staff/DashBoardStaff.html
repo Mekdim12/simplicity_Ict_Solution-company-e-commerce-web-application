@@ -12,11 +12,11 @@
             <div class="bg-info card text-center text-white  mb-3" id="total-orders">
                 <div class="card-header">
                     <h5 class="card-title">Total Customers</h5>
-
+                   
                 </div>
                 <div class="card-body">
 
-                    <h3 class="card-title">0</h3>
+                    <h3 class="card-title"> {{ totalCustomerAcc }} </h3>
 
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     <h5 class="card-title">Engaging Customers</h5>
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title">0</h3>
+                    <h3 class="card-title"> {{  PeoplesEngaging }} </h3>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             <div class="faq-content">
 
                 <div class="row mx-3">
-                    <table class="table-striped table-bordered ">
+                    <table class="table table-sm table-striped  ">
                         <thead class="bg-success">
                             <tr>
                                 <th>
@@ -81,126 +81,115 @@
                         </thead>
 
                         <tbody>
+
+                            {% for key ,value in ActiveFeedBacks.items %} 
                             <tr>
                                 <td>
-                                    <div class=" Product-img ">
-                                        <img style="border: 2px black solid;" src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                    <div class=" Product-img mx-0">
+                                        <img  src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
                                             alt="..." class="img-responsive">
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="row">
+                                <td class="w-75" >
+                                <div class="mb-2 mx-0"   >
                                         
-                                        <div class="col-lg-10">
-                                            <h3 class="nomargin"> <b> Abysinai Bank</b> </h3>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                
-                                
-                               
-                            
-                                <td class="actions" data-th="" >
-                                    <button class="btn btn-info btn-lg"> <span class="glyphicon glyphicon-shopping-cart">
-                                        </span> </button>
-                                    <button class="btn btn-danger btn-lg"> <i class="fa fa-trash-o"> </i> </button>
-                                </td>
-                            </tr>
-                            <tr class="mb-5" >
-                                <td>
-                                    <div class=" Product-img ">
-                                        <img style="border: 2px black solid;" src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
-                                            alt="..." class="img-responsive">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="row">
+                                    {% for k, v in value.items %} 
+                                                {% if k == 'companyname' %}
+                                                    <p class="h2">{{v}}</p>
+                                                {% endif %}
+                                    {% endfor %}
+                                </div>
                                         
-                                        <div class="col-lg-10">
-                                            <h3 class=""> <b> Abysinai Bank</b> </h3>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. </p>
-                                        </div>
-                                    </div>
-                                </td>
+                                <div class="mx-0"   style="overflow-y: scroll; line-height: 28px; ">
+                                    {% for k, v in value.items %}            
+                                        {% if k == 'Description' %}
+                                                    <p>{{v}}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                    
                                 
                                 
-                               
+                                
+                             </td>
                             
-                                <td class="actions" data-th="" >
-                                    <button class="btn btn-info btn-lg"> <span class="glyphicon glyphicon-shopping-cart">
-                                        </span> </button>
-                                    <button class="btn btn-danger btn-lg"> <i class="fa fa-trash-o"> </i> </button>
+                                <td class="actions" data-th=""  >
+                                    <button class="btn btn-info btn-sm"> <a href="{% url 'formpagecontent' key %}"> Edit </a></button>
+                                    <button class="btn btn-danger btn-sm"> <a href="{% url 'deletepagecont' key %}"> Delete </a> </i> </button>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class=" Product-img ">
-                                        <img style="border: 2px black solid;" src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
-                                            alt="..." class="img-responsive">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="row">
-                                        
-                                        <div class="col-lg-10">
-                                            <h3 class="nomargin"> <b> Abysinai Bank</b> </h3>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                
-                                
-                               
-                            
-                                <td class="actions" data-th="" >
-                                    <button class="btn btn-info btn-lg"> <span class="glyphicon glyphicon-shopping-cart">
-                                        </span> </button>
-                                    <button class="btn btn-danger btn-lg"> <i class="fa fa-trash-o"> </i> </button>
-                                </td>
-                            </tr>
+                             </tr>
+
+                            {% endfor %}
+
 
                         </tbody>
+                        
+                          
                     </table>
-
-
-
+                    <div>
+                    <button  style="margin-left: 30%;  " class="btn bg-info btn-lg w-50 my-3"><a href="{% url 'formpagecontent' '-1'  %}"> Add New Feedback </a></button>
+                    </div>  
                 </div>
-
-
-
             </div>
         </div>
     </div>
-    <div class="single-faq">
+
+
+    
+    <div class="single-faq ">
         <button class="w-100 text-start collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
             aria-expanded="false" aria-controls="collapseTwo">
-            What I need to start design?
+           Peoples Suggestion and Comments
         </button>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-            <div class="faq-content">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                brunch.
+            <div class="faq-content  container">
+
+                
+                
+                <table class="w-100 table-hover table-striped">
+
+                    <thead>
+                            <tr> 
+                                <th>
+                                    <h3 > <b> Name of Customer </b> </h3>
+                                    </th>
+                                <th>
+                                <h3> <b> Date(dd/mm/yy)  </b> </h3>
+                                </th>
+                                <th><h3><b> </b>Action</h3> </b></th>
+
+                            </tr>
+                    </thead>
+               
+                <tbody>
+
+                    
+                    {% for key , val in commentOrFeedback.items %}                    
+                        <tr class="my-2">
+                            {%for k,v in val.items %}
+
+                                {% if k == 'name' %}
+                                     <td class="mx-5">{{  v }}</td>
+                                {% elif k == 'givenOn' %}
+                                <td>{{ v }}</td>
+                                {% endif %}
+                                
+                            {% endfor %}
+                            <td class="actions" data-th="" >
+                                <button class="btn btn-info btn-sm my-2"> <a href="{% url 'viewfullinfn' key %}">  View </a> </button>
+                                <button class="btn btn-danger btn-sm my-2"> <a href="{% url 'deletefeedback' key %}"> Delete </a> </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+
+
             </div>
         </div>
     </div>
-    <div class="single-faq">
-        <button class="w-100 text-start collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            What is our design process?
-        </button>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-            <div class="faq-content">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                brunch.
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 {% endblock %}
+

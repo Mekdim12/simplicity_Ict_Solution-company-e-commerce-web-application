@@ -1,0 +1,95 @@
+{% extends 'MainApplication/Main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    
+    <div class="row">
+        <div style="overflow: hidden;" class="col-3"></div>
+        <div style="border: 2px black solid; flex-wrap: wrap;  margin-top:100px ;" class="col-6 ">
+
+
+            <button class="bg-secondary"> <a href="{% url 'dashboardstaff' %}"> Back </a> </button>
+
+            <form action="" method="post" class="form-inline">
+                {% csrf_token %}
+                <div>
+                    <div style="display: flex; justify-content: center;">
+                        <div class="" style="border: 2px black  solid;  width: 200px; height: 200px;"> <img
+                                width="200px" height="200px" id="output" /></div>
+                        <p><input type="file" accept="image/*" name="imageFile" id="file--"
+                                onclick="uploadServiceImage();" onchange="loadFile(event)" style="display: none;"></p>
+
+
+                    </div>
+                    <p style="text-align: center;"><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                </div>
+
+
+                <div class="from-group">
+                    <label for="companyname"> Company Name  </label>
+                    <input type="text" id="companyname" name="companyname" class="form-control" placeholder="Enter Company Name">
+
+                </div>
+
+                
+
+
+                <div class="form-group w-100 mx-1">
+                    <label for="Description">Companies Feed Back</label>
+
+                    <textarea class="form-control" name="Description" id="Description" cols="30" rows="5"
+                        placeholder="Enter The Cmpannies Feed Back"></textarea>
+                </div>
+
+
+
+
+                <div class="form-group  ">
+
+                    <button style="margin-left:45% ; " type="submit" class="btn btn-primary btn-lg my-3">Save</button>
+
+                </div>
+
+
+
+            </form>
+
+
+
+
+
+
+        </div>
+        <div style="overflow:hidden;" class="col-3 w-25"></div>
+    </div>
+
+
+
+</div>
+{% if flag == True %}
+    {% for key , v in temp.items %}
+
+        {% if  key  == 'Description' %}  
+            <script>
+                var tg = document.getElementById('companyname');
+                tg.value = "{{ v }}"; 
+            </script>
+        {% elif  key  == 'companyname' %}  
+            <script>
+                var tg = document.getElementById('Description');
+                tg.value = "{{ v }}"; 
+            </script>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
+
+
+
+
+
+{% endblock %}

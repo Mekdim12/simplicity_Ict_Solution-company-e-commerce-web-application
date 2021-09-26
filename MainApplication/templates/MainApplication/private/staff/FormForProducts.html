@@ -1,0 +1,163 @@
+{% extends 'MainApplication/Main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+ 
+
+ 
+
+<div class="container-fluid">
+    <!-- <input type="file" name="file[]" id="files">
+    <input type="hidden" name="url" id="url">
+    <button type="button" onclick="uploadImage();"> Get Image   </button> -->
+    <div class="row">
+        <div style="overflow: hidden;" class="col-3"></div>
+        <div style="border: 2px black solid; flex-wrap: wrap;  margin-top:100px ;" class="col-6 ">
+
+
+            <button class="bg-secondary" > <a href="{% url 'productandservice' %}"> Back </a> </button>
+
+            <form action="" method="post" class="form-inline">
+                {% csrf_token %}
+                <div>
+                    <div style="display: flex; justify-content: center;">
+                        <div class="" style="border: 2px black  solid;  width: 200px; height: 200px;"> <img
+                                width="200px" height="200px" id="output" /></div>
+                        <p><input type="file" accept="image/*" name="imageFile" id="file--"
+                                onclick="uploadProductsImage();" onchange="loadFile(event)" style="display: none;"></p>
+
+
+                    </div>
+                    <p style="text-align: center;"><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                </div>
+
+
+                <div class="from-group">
+                    <label for="prodcutname"> Product Name </label>
+                    <input type="text" id= "prodcutname" name="prodcutname" class="form-control" placeholder="Enter Product Name">
+
+                </div>
+
+
+                <div class="form-group ">
+                    <label for="prodcutType">Product Type</label>
+                    <input type="text" class="form-control" name="prodcutType" id="prodcutType" placeholder="Prodcut Type">
+                </div>
+                <div class="form-group w-50" style="float: left;">
+                    <label for="price">Price</label>
+                    <input type="text" class="form-control" name="price" id="price" placeholder="Price">
+                </div>
+
+                <div class="form-group w-50 " style="float: right;">
+
+                    <label for="PriceType">Price Status</label>
+                    <br>
+                    <select style="height: 38px;" class="w-100" value="fixed" name="PriceType" id="PriceType">
+                        <option value="Negotiable">Negotiable</option>
+                        <option value="Fixed">Fixed</option>
+                    </select>
+
+                </div>
+                <div class="form-group w-100 mx-1">
+                    <label for="Description">Description about the product</label>
+
+                    <textarea class="form-control" name="Description" id="Description" cols="30" rows="5"
+                        placeholder="Enter the Description"></textarea>
+                </div>
+
+
+
+
+
+                <div class="form-group w-50 " style="float: left;">
+                    <label for="rating">Status</label>
+                    <input type="number" class="form-control" name="rating" max="5" min="1" id="rating" placeholder="Rate Product Quality">
+                </div>
+                <div class="form-group w-50" style="float: right;">
+                    <label for="shippementDays">Shippment Day</label>
+                    <input type="number" class="form-control" id="shippementDays" name="shippementDays" placeholder="Number Of Days">
+                </div>
+
+
+
+                <div class="form-group  ">
+
+                    <button style="margin-left:45% ; " type="submit"  id="save" class="btn btn-primary btn-lg my-3">Save</button>
+
+                </div>
+
+
+
+            </form>
+
+
+
+
+
+
+        </div>
+        <div style="overflow:hidden;" class="col-3"></div>
+    </div>
+
+
+
+</div>
+
+{% if flag == True %}
+
+   {% for key , v in data.items %}
+        
+        {% if  key  == 'prodcutname' %}  
+        <script>
+            var tg = document.getElementById('prodcutname');
+            tg.value = "{{ v }}"; 
+        </script>
+        {% elif key == 'Description' %}
+        <script>
+            var tg = document.getElementById('Description');
+            tg.value = "{{ v }}";  
+        </script>
+        {% elif key == 'prodcutType' %}
+        <script>
+            var tg = document.getElementById('prodcutType');
+            tg.value = "{{ v }}";  
+        </script>
+        
+        {% elif key == 'price' %} 
+        <script>
+            var tg = document.getElementById('price');
+            tg.value = "{{ v }}"; 
+        </script>
+        {% elif key == 'rating' %}
+        <script>
+            var tg = document.getElementsByName('rating')[0].placeholder = '{{ v }}'
+             
+        </script>
+        {% elif key == 'PriceType' %}
+        <script>
+            
+            var tg = document.getElementsByName('PriceType')[0].placeholder = '{{ v }}'
+            
+        </script>
+        
+        {% elif key == 'shippementDays' %}
+        <script>
+            
+            var tg = document.getElementsByName('shippementDays')[0].placeholder = '{{ v }}'
+            
+
+        </script>
+        {% endif %}
+
+   {% endfor %}
+   
+   
+{% endif %}
+
+
+
+
+
+{% endblock %}
