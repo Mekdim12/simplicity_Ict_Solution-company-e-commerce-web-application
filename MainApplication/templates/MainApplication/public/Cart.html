@@ -22,7 +22,7 @@
 <div class="container-fluid main-section">
     <div class="row">
         <div class="col-lg-12 pb-2">
-            <h2> Shopping Cart Design teamplate Using Bootstrap - Codeplaners </h2>
+            <h2> Shopping Cart <span style="color: gray;  font-size: medium ;" >( If The Cart Can't Be Purcahsed It Becouse Its's Removes From Accessbitlity )</span></h2>
         </div>
         <div class="col-lg-12 pl-3 pt-3">
             <table class="table table-hover border bg-white">
@@ -49,40 +49,149 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="row">
-                                <div class="col-lg-2 Product-img">
-                                    <img src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
-                                        alt="..." class="img-responsive" />
+                    
+                        
+                    {% for key , value in  Prod.items %}
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-lg-2 Product-img">
+                                        <img src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                            alt="..." class="img-responsive" />
+                                    </div>
+                                    <div class="col-lg-10">
+                                        {% for k,v in value.items %}
+                                            
+                                            {% if k == 'prodcutname' %}
+                                                <h5 class="nomargin"> <b> {{ v }} </b> </h5>
+                                            {% elif k == 'Description' %}
+                                                <p> {{ v }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                                <div class="col-lg-10">
-                                    <h5 class="nomargin"> <b> Lenovo K6 Power </b> </h5>
-                                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. </p>
-                                </div>
-                            </div>
-                        </td>
-                        <td> <strong> 50,000 </strong> </td>
-                        <td data-th="Quantity">
-                            <b> <input type="number" class="form-control text-center" value="1"> </b>
-                        </td>
-                        <td> <strong> 50,000 </strong> </td>
+                            </td>
+                            {% for k,v in value.items %}
+                                {% if k == 'price' %}
+                                <td> <strong> {{ v }} </strong> </td>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <td data-th="Quantity">
+                                <b> <input name="quantity" type="number" class="form-control text-center" value="1"> </b>
+                            </td>
+                            {% for k,v in value.items %}
+                                {% if k == 'PriceType' %}
+                                <td> <strong> {{ v }} </strong> </td>
+                                {% endif %}
+                            {% endfor %}
 
-                        <td>
-                            <select name="" id="" value="Regular">
-                                <option>Urgent</option>
-                                <option>Not Urgent</option>
-                                <option>Regular</option>
-                            </select>
-                        </td>
-                        <td class="actions" data-th="" style="width:10%;">
-                            <button class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-shopping-cart">
-                                </span> </button>
-                            <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"> </i> </button>
-                        </td>
-                    </tr>
+                            <td>
+                                <select name="type" id="" value="Regular">
+                                    <option>Urgent</option>
+                                    <option>Not Urgent</option>
+                                    <option>Regular</option>
+                                </select>
+                            </td>
+
+
+                            <td class="actions" data-th="" style="width:10%;">
+                                <input type="text" name="val" value=" {{ key }}" hidden>
+                                <button  type="submit"  class="btn btn-info btn-sm"> <a href= "{% url 'cart' %}"> <span class="glyphicon glyphicon-shopping-cart">
+                                    </span> </a> </button>
+                                <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"> </i> </button>
+                            </td>
+                        </tr>
+                    </form>
+                    {% endfor %}
+
+
+
+
+                    {% for key , value in  serv.items %}
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-lg-2 Product-img">
+                                        <img src="https://codeplaners.com/wp-content/uploads/2020/09/cropped-favicon-social-180x180.png"
+                                            alt="..." class="img-responsive" />
+                                    </div>
+                                    <div class="col-lg-10">
+                                        {% for k,v in value.items %}
+                                            
+                                            {% if k == 'servicename' %}
+                                                <h5 class="nomargin"> <b> {{ v }} </b> </h5>
+                                            {% elif k == 'Description' %}
+                                                <p> {{ v }}</p>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </td>
+                            {% for k,v in value.items %}
+                                {% if k == 'price' %}
+                                <td> <strong> {{ v }} </strong> </td>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <td data-th="Quantity">
+                                <b> <input name="quantity" type="number" class="form-control text-center" value="1"> </b>
+                            </td>
+                            {% for k,v in value.items %}
+                                {% if k == 'PriceType' %}
+                                <td> <strong> {{ v }} </strong> </td>
+                                {% endif %}
+                            {% endfor %}
+
+                            <td>
+                                <select name="type" id="" value="Regular">
+                                    <option>Urgent</option>
+                                    <option>Not Urgent</option>
+                                    <option>Regular</option>
+                                </select>
+                            </td>
+
+
+                            <td class="actions" data-th="" style="width:10%;">
+                                <input type="text" name="val" value=" {{ key }}" hidden>
+                                <button  type="submit"  class="btn btn-info btn-sm"> <a href= "{% url 'cart' %}"> <span class="glyphicon glyphicon-shopping-cart">
+                                    </span> </a> </button>
+                                </form>
+                                <button class="btn btn-danger btn-sm"> <a href="{% url 'deletecartitems' key %}"> <i class="fa fa-trash-o"> </i></a> </button>
+                            </td>
+                        </tr>
+                    
+                    {% endfor %}
+                </tbody>
+                <tfoot>
                     <tr>
+                        <td> <a href="{% url 'shop' %}" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Continue Shopping
+                            </a> </td>
+                        <td colspan="2" class="hidden-xs"> </td>
+                        <td class="hidden-xs text-center" style="width:10%;"> <strong> Total Price : 1,30,000 </strong>
+                        </td>
+                        <td> <a href="#" class="btn btn-success btn-block"> Checkout <i class="fa fa-angle-right"> </i>
+                            </a> </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+<!-- 
+
+<tr>
                         <td>
                             <div class="row">
                                 <div class="col-lg-2 Product-img">
@@ -149,21 +258,5 @@
                             <button class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"> </i> </button>
                         </td>
                     </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td> <a href="#" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Continue Shopping
-                            </a> </td>
-                        <td colspan="2" class="hidden-xs"> </td>
-                        <td class="hidden-xs text-center" style="width:10%;"> <strong> Total Price : 1,30,000 </strong>
-                        </td>
-                        <td> <a href="#" class="btn btn-success btn-block"> Checkout <i class="fa fa-angle-right"> </i>
-                            </a> </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-</div>
 
-{% endblock %}
+ -->

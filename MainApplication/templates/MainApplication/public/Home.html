@@ -195,24 +195,37 @@
             natus? Obcaecati perferendis, facilis sunt eum nam harum expedita modi sint? Officiis molestias ea libero
             facilis?</p>
     </div>
-    <div class="card mycard card-left border-0">
-        <img src="https://img1.wsimg.com/isteam/stock/1379/:/rs=w:365,h:365,cg:true,m/cr=w:365,h:365/qt=q:28" />
-        <div class="card-body">
 
-            <h3 class="card-tittle">
-                my tiitle
-            </h3>
-            <p class="card-text">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum commodi sed rerum quaerat fugit minus
-                sit nobis aliquam possimus ipsam assumenda, corporis nisi eligendi in consectetur delectus eos
-                eaque. Illum!
-            </p>
 
-            <a href="" class="btn btn-bg"> Read More </a>
+    {% for key ,value in data.items %}
+        
+            <div class="card mycard card-left border-0">
+                <img src="https://img1.wsimg.com/isteam/stock/1379/:/rs=w:365,h:365,cg:true,m/cr=w:365,h:365/qt=q:28" />
+                <div class="card-body">
+                    {% for k,v in value.items %}
+                        {% if k == 'companyname' %}
+                        <h3 class="card-tittle">
+                            {{ v }}
+                        </h3>
+                        {% endif %}
+                    {% endfor %}
 
-        </div>
-    </div>
-    <div class="card mycard  border-0">
+                    {% for k,v in value.items %}
+                        {% if k == 'Description' %}
+                        <p class="card-text">
+                           <blockquote> {{ v }} </blockquote>
+                        </p>
+                        {% endif %}
+                    {% endfor %}
+                    <a href="" class="btn btn-bg"> Read More </a>
+
+                </div>
+            </div>
+            
+    {% endfor %}
+
+
+    <!-- <div class="card mycard  border-0">
         <img src="https://img1.wsimg.com/isteam/stock/1379/:/rs=w:365,h:365,cg:true,m/cr=w:365,h:365/qt=q:28" />
         <div class="card-body">
 
@@ -247,7 +260,7 @@
             <a href="" class="btn btn-bg"> Read More </a>
 
         </div>
-    </div>
+    </div> -->
 
 
 

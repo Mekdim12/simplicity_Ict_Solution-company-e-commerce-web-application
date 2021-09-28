@@ -1,8 +1,9 @@
+
 from datetime import time
 from os import startfile
+
 from django.shortcuts import render, redirect
 from django.urls import conf
-from pyasn1.type.useful import TimeMixIn
 
 import pyrebase
 
@@ -66,7 +67,28 @@ auth_ = firebase.auth()
 
 
 def HomePage(request):
-    return render(request, 'MainApplication/public/Home.html')
+    context = {}
+    ct = {}
+    try:
+        ref = db.reference('PageInforamtion')
+        for timestamp in ref.get():
+            data = ref.get()[timestamp]
+            Description = data['Description']
+            companyname = data['companyname']
+
+            temp = {
+                "companyname":companyname,
+                "Description":Description,
+            }
+
+            ct[timestamp] = temp
+            temp = {}
+        context['data'] = ct
+    except Exception as rr:
+        print(rr)
+        print("#################################### 111")
+    
+    return render(request, 'MainApplication/public/Home.html', context)
 
 
 def PublicAboutUs(request):
@@ -292,16 +314,578 @@ def dashBoard(request):
     return render(request, 'MainApplication/public/DashBoardCustomer.html', context)
 
 
+def reUsableForShopFunctions( request , context):
+     
+    
+    try: # this for product handling 
+        dbref = db.reference('Products')
+        
+        values = []
+        for timestamapids in dbref.get():
+            temp = {}
+            data = dbref.get()[timestamapids]
+
+            Description = data['Description']
+            PriceType = data['PriceType']
+            price = data['price']
+            prodcutType = data['prodcutType']
+            prodcutname = data['prodcutname']
+            rating = str(data['rating'])
+            shippementDays = data['shippementDays']
+            createdOn = data['createdOn']
+
+            if rating == '1':
+                rating = '⭐'
+            elif rating == '2':
+                rating = '⭐⭐'
+            elif rating == '3':
+                rating = '⭐⭐⭐'
+            elif rating == '4':
+                rating = '⭐⭐⭐⭐'
+            elif rating == '5':
+                rating = '⭐⭐⭐⭐⭐'
+            
+
+
+            temp = {
+                'prodcutname' : prodcutname,
+                'prodcutType':prodcutType,
+                'price' : price,
+                'PriceType':PriceType,
+                'createdOn':createdOn,
+                'Description':Description,
+                'shippementDays':shippementDays,
+                'rating':rating,
+            }
+            values.append(temp)
+            temp = {}
+            
+        keys = list(dbref.get().keys())
+        
+        availlabelProduct = dict(zip(keys, values))
+        context['availlabelProduct'] = availlabelProduct
+        context['flag'] = False
+        
+    except Exception as er:
+        print(er)
+        print("############################## 013")
+
+    try: # this for service handling 
+        dbref = db.reference('Services')
+        
+        values = []
+        for timestamp in dbref.get():
+            temp= {}
+            data = dbref.get()[timestamp]
+
+            Description = data['Description']
+            PriceType = data['PriceType']
+            createdOn = data['createdOn']
+            price = data['price']
+            rating = data['rating']
+            serviceType = data['serviceType']
+            servicename = data['servicename']
+           
+            
+            if rating == '1':
+                rating = '⭐'
+            elif rating == '2':
+                
+                rating = '⭐⭐'
+            elif rating == '3':
+                rating = '⭐⭐⭐'
+            elif rating == '4':
+                rating = '⭐⭐⭐⭐'
+            elif rating == '5':
+                rating = '⭐⭐⭐⭐⭐'
+
+
+
+            temp = {
+
+                'Description':Description,
+                'PriceType':PriceType,
+                'createdOn':createdOn,
+                'price':price,
+                'rating':rating,
+                'serviceType':serviceType,
+                'servicename':servicename
+            }
+            values.append(temp)
+            temp = {}
+        keys = list(dbref.get().keys())
+        
+        availabelServices = dict(zip(keys, values))
+        context['availabelServices'] = availabelServices
+
+    except Exception as e:
+        print(e)
+        print("######################## 051")
+
+    return context
+
 def Shop(request):
-    return render(request, "MainApplication/public/Shop.html")
+    context = {}
+    context['flag'] = False
+    ret = reUsableForShopFunctions(request, context)
+    return render(request, "MainApplication/public/Shop.html", context)
+
+            
+
+    
 
 
 def Cart(request):
-    return render(request, "MainApplication/public/Cart.html")
+    context = {}
+    
+    if request.method == "POST":
+        
+        infns = dict( request.POST )
+        
+        quantity = infns['quantity']
+        type = infns['type']
+        timestamp = infns['val'][0]
 
 
+        userSession = request.session['UserTokenId']
+
+        session_Information = auth_.get_account_info(userSession)
+        localId = session_Information['users'][0]['localId']
+
+        companyRef = dict(database.child('User').child(
+            'Customer').child('Company').get().val())
+        IndividualRef = dict(database.child('User').child(
+            'Customer').child('Individual').get().val())
+
+        companyRef = companyRef.keys()
+        IndividualRef = IndividualRef.keys()
+
+        if localId in companyRef:
+            companyRef = dict(database.child('User').child(
+                'Customer').child('Company').child(str(localId)).get().val())
+            fullName = companyRef['Detail']['companyName']
+            email = companyRef['Detail']['companyEmail']
+
+
+        elif localId in IndividualRef:
+            IndividualRef = dict(database.child('User').child(
+                'Customer').child('Individual').child(str(localId)).get().val())
+            fullName = IndividualRef['Detail']['fullName']
+            email = IndividualRef['Detail']['email']
+        
+        at =  email.find('.')
+        email = email[:at] + '' + email[at+1:]
+        at =  email.find('@')
+        email = email[:at] + '-AT-' + email[at+1:]
+
+        
+
+
+
+        ref = db.reference('MarketActivity').child(email)
+
+        products = ref.child('Products')
+        service = ref.child('Services')
+
+        referenceHolder = ""
+        try:
+            products = products.get()
+
+            for ts in products:
+                data = products[ts]
+
+                date = data['date']
+                timestampid = data['timestampid']
+                if timestamp.strip() == timestampid.strip():
+                    referenceHolder = "Products"
+
+        except Exception as ey:
+            print(ey)
+            print("################################# 5415")
+
+        try:
+            service = service.get()
+
+            for ts in service:
+                data = service[ts]
+
+                date = data['date']
+
+                timestampid = data['timestampid']
+                
+
+               
+                if timestamp.strip() == timestampid.strip():
+                    referenceHolder = "Services"
+
+        except Exception as ey:
+            print(ey)
+            print("################################# 5413")
+
+        
+        ref =  ref.child(referenceHolder)
+        
+
+        for tss in ref.get():
+            dt = ref.get()[tss]
+
+            timts = dt['timestampid']
+            if timestamp.strip() == timts.strip():
+                ref = ref.child(tss)
+                break
+
+        
+        
+
+        purchasing = db.reference('MarketActivity').child(email).child('Purchased')
+
+        purchasedService = purchasing.child(referenceHolder)
+        
+
+        import datetime
+
+        date = datetime.datetime.now().strftime('%Y-%B-%d')
+
+
+        cust = db.reference('User').child('Customer')
+        customerTimestamp = ""
+        for typee in cust.get():
+            data = cust.get()[typee]
+
+            for times in data:
+                 infn = data[times]
+
+                 currentEmail = ""
+                 if typee == 'Company':
+                     currentEmail = infn['Detail']['companyEmail']
+                     
+                 elif typee == 'Individual':
+                     currentEmail = infn['Detail']['email']
+                     
+                 
+                 at =  currentEmail.find('.')
+                 currentEmail = currentEmail[:at] + '' + currentEmail[at+1:]
+                 at =  currentEmail.find('@')
+                 currentEmail = currentEmail[:at] + '-AT-' + currentEmail[at+1:]
+
+                 if currentEmail.strip() == email.strip():
+                     customerTimestamp = times
+                     break
+
+            
+
+
+         
+
+        temp = {
+            "ProductTimestamp" :timestamp,
+            "customerTimestamp":customerTimestamp,
+            "date":date,
+            "quantity":quantity,
+            "type":type
+        }
+        
+
+
+        try:
+            ref.delete()
+            purchasedService.push(temp)
+            return redirect('cart')
+        except Exception as e:
+            print(e)
+            print("###################### 416")
+        
+
+        # return render(request, "MainApplication/public/Cart.html", context)
+
+
+    else:
+        userSession = request.session['UserTokenId']
+
+        session_Information = auth_.get_account_info(userSession)
+        localId = session_Information['users'][0]['localId']
+
+        companyRef = dict(database.child('User').child(
+            'Customer').child('Company').get().val())
+        IndividualRef = dict(database.child('User').child(
+            'Customer').child('Individual').get().val())
+
+        companyRef = companyRef.keys()
+        IndividualRef = IndividualRef.keys()
+
+        if localId in companyRef:
+            companyRef = dict(database.child('User').child(
+                'Customer').child('Company').child(str(localId)).get().val())
+            fullName = companyRef['Detail']['companyName']
+            email = companyRef['Detail']['companyEmail']
+
+            """
+            companyAdress:
+            companyEmail
+            companyName
+            companyPhoneNumber
+            companyType
+            fullName
+            """
+
+        elif localId in IndividualRef:
+            IndividualRef = dict(database.child('User').child(
+                'Customer').child('Individual').child(str(localId)).get().val())
+            fullName = IndividualRef['Detail']['fullName']
+            email = IndividualRef['Detail']['email']
+        
+        at =  email.find('.')
+        email = email[:at] + '' + email[at+1:]
+        at =  email.find('@')
+        email = email[:at] + '-AT-' + email[at+1:]
+
+
+        try: # get the reference from db
+            ref = db.reference('MarketActivity').child(email)
+            if ref.get() is not None:
+                data = ref.get()
+                try:
+                     product = data['Products']
+                except:# cuz it means there is no such shit
+                    product = None
+                try:
+                    service = data['Services']
+                except:
+                    service = None
+
+                # first handle all the products 
+                ct = {}
+                ct2 = {}
+                
+                if product is not None:
+                    for ts in product:
+                        prods = product[ts]
+
+                        date = prods['date']
+                        timstsForProd = prods['timestampid']
+
+
+                        refPoduct = db.reference('Products').child(timstsForProd)
+
+                        data = refPoduct.get()
+                        
+                        prodcutname = data['prodcutname']
+                        prodcutType =data['prodcutType']
+                        price = data['price']
+                        PriceType = data['PriceType']
+                        Description = data['Description']
+                        rating = data['rating']
+                        shippementDays = data['shippementDays']
+                        createdOn = data['createdOn']
+
+                        temp = {
+                            'prodcutname':prodcutname,
+                            'Description':Description,
+                            'prodcutType':prodcutType,
+                            'createdOn':createdOn,
+                            'price':price,
+                            'rating':rating,
+                            'PriceType':PriceType,
+                            'shippementDays':shippementDays
+                        }
+                        ct [timstsForProd] = temp
+                        temp = {}
+                if  service is not None:
+                    
+                    for ts in service:
+                        serv = service[ts]
+
+                        date = serv['date']
+                        timstsForProd = serv['timestampid']
+
+
+                        refPoduct = db.reference('Services').child(timstsForProd)
+
+                        data = refPoduct.get()
+                        
+                        Description = data['Description']
+                        servicename = data['servicename']
+                        serviceType = data['serviceType']
+                        price = data['price']
+                        PriceType = data['PriceType']
+                        rating = data['rating']
+                        createdOn = data['createdOn']
+
+                        temp = {
+                        'servicename':servicename,
+                        'Description':Description,
+                        'serviceType':serviceType,
+                        'createdOn':createdOn,
+                        'price':price,
+                        'rating': rating[0],
+                        'PriceType':PriceType[0],
+                        
+                        }
+                        ct2 [timstsForProd] = temp
+                        temp = {}
+                    
+                
+                if ( not ct) and (not ct2):
+                    return redirect('nocart')
+
+
+                context['Prod'] = ct
+
+                context['serv'] = ct2
+
+                return render(request, "MainApplication/public/Cart.html", context)
+
+                
+        except Exception as rt:
+            print(rt)
+            print("#######################################  900")
+            return redirect('nocart')
+
+    
+    
 def NoCart(request):
     return render(request,  "MainApplication/public/cartEmpty.html")
+
+
+
+contextCheck = {}
+def AddToCartButtonOperation(request, timestampid):
+    global contextCheck
+
+    userSession = request.session['UserTokenId']
+
+    session_Information = auth_.get_account_info(userSession)
+    localId = session_Information['users'][0]['localId']
+
+    companyRef = dict(database.child('User').child(
+        'Customer').child('Company').get().val())
+    IndividualRef = dict(database.child('User').child(
+        'Customer').child('Individual').get().val())
+
+    companyRef = companyRef.keys()
+    IndividualRef = IndividualRef.keys()
+
+    if localId in companyRef:
+        companyRef = dict(database.child('User').child(
+            'Customer').child('Company').child(str(localId)).get().val())
+        fullName = companyRef['Detail']['companyName']
+        email = companyRef['Detail']['companyEmail']
+
+        """
+        companyAdress:
+        companyEmail
+        companyName
+        companyPhoneNumber
+        companyType
+        fullName
+        """
+
+    elif localId in IndividualRef:
+        IndividualRef = dict(database.child('User').child(
+            'Customer').child('Individual').child(str(localId)).get().val())
+        fullName = IndividualRef['Detail']['fullName']
+        email = IndividualRef['Detail']['email']
+    at =  email.find('.')
+    email = email[:at] + '' + email[at+1:]
+    at =  email.find('@')
+    email = email[:at] + '-AT-' + email[at+1:]
+
+    try:
+         ref = db.reference('Cart').child(email)
+    except Exception as er:
+        print(er)
+        print("######################### 7956 ")
+    
+    refrenceHolder = ""
+    # checking that wherther the reqested item is prdouct or service bleow
+    try:
+        ProdvRef = list(db.reference('Products').get().keys())
+        if timestampid in  ProdvRef:
+            refrenceHolder = "Products"
+    except Exception as er:
+        print(er)
+        print("############################### 369")
+    
+        
+        
+    try:
+        ProdvRef = list(db.reference('Services').get().keys())
+        if timestampid in  ProdvRef:
+            refrenceHolder = "Services"
+
+           
+    except Exception as er:
+        print(er)
+        print("############################### 365")
+    
+        
+
+    
+    
+    
+    
+   
+
+    ref = db.reference('MarketActivity').child(email).child(refrenceHolder)
+    
+    
+    """
+        check if its already added to the cart for just fast load up below
+    """
+    fg = False
+    try:
+        ref2 = ref.get()
+
+        if ref2 is not None:
+
+            for timestamps in ref2:
+                realData = ref2[timestamps]
+
+                timestamp = realData['timestampid']
+                temp = {}
+                if timestamp == timestampid:
+                    fg = True
+                    contextCheck['flag'] = True
+                    temp['id'] = timestampid
+
+                    if refrenceHolder == 'Services':
+                        temp['type'] = "Serv"
+                        
+                    elif refrenceHolder == 'Products':
+                        temp['type'] = "prod"
+
+                contextCheck['check'] = temp   
+                temp = {}  
+
+
+    except Exception as rt:
+        print(rt)
+        print("######################################### 102")
+    
+    print(fg)
+    if not fg:
+        import datetime
+
+        date = datetime.datetime.now().strftime('%Y-%B-%d')
+        
+        temp = {
+            "timestampid" : timestampid,
+            "date":date 
+        }
+
+        try:
+            ref.push(temp)
+            return redirect('shop')
+        except Exception as err:
+            print(err)
+            print("#################################################  915")
+    else:
+        val = reUsableForShopFunctions(request, contextCheck)
+        return render(request, "MainApplication/public/Shop.html", val)
+
+
+
+    
 
 
 def DashBoardStaff(request):
@@ -451,6 +1035,32 @@ def DashBoardStaff(request):
 
 
 def PurchasingItems(request):
+
+    """
+    iterate throug all and provide and id of container time stamp for the buttons so that they can navigate easily
+
+    infn need is just the name of prod and customer and a a date
+    """
+
+    try:
+        ref = db.reference('MarketActivity')
+
+        for emails in ref.get():
+            try:
+                data = ref.get()[emails]['Purchased']
+                
+
+
+            except:
+                pass
+
+
+    except Exception as ert:
+        print(ert)
+        print("#################################  4533")
+
+
+
     return render(request,  "MainApplication/private/staff/PurchasingItems.html")
 
 
@@ -1004,3 +1614,91 @@ def DeleteFeedback(request ,timestampid):
 
     return render(request, "MainApplication/private/staff/DeleteConfirmationPagePepolesFeedBack.html")
 
+
+def DeleteCartItems(request, timestampid):
+    global reff
+    if timestampid.strip() != '-1' and timestampid.strip() != '1':
+        userSession = request.session['UserTokenId']
+
+        session_Information = auth_.get_account_info(userSession)
+        localId = session_Information['users'][0]['localId']
+
+        companyRef = dict(database.child('User').child(
+            'Customer').child('Company').get().val())
+        IndividualRef = dict(database.child('User').child(
+            'Customer').child('Individual').get().val())
+
+        companyRef = companyRef.keys()
+        IndividualRef = IndividualRef.keys()
+
+        if localId in companyRef:
+            companyRef = dict(database.child('User').child(
+                'Customer').child('Company').child(str(localId)).get().val())
+            fullName = companyRef['Detail']['companyName']
+            email = companyRef['Detail']['companyEmail']
+
+
+        elif localId in IndividualRef:
+            IndividualRef = dict(database.child('User').child(
+                'Customer').child('Individual').child(str(localId)).get().val())
+            fullName = IndividualRef['Detail']['fullName']
+            email = IndividualRef['Detail']['email']
+        
+        at =  email.find('.')
+        email = email[:at] + '' + email[at+1:]
+        at =  email.find('@')
+        email = email[:at] + '-AT-' + email[at+1:]
+
+
+        ref = db.reference('MarketActivity').child(email)
+
+        # for checking create two d/n db instances 
+
+        try:
+            prod = ref.get()
+            if prod is not None:
+
+                for times in prod:
+                    data = prod[times]
+                    if times == 'Purchased':
+                        continue
+                    
+
+                    for sects in data:
+                        data2 = data[sects]
+                        
+
+                        timestampP = data2['timestampid']
+
+                        if timestampP.strip() ==  timestampid.strip():
+                            
+                            ref = ref.child(times).child(sects.strip())
+
+
+
+        except Exception as t:
+            print(t)
+            print("################## 1498")
+        
+
+
+
+
+        reff.append(ref)
+
+        
+
+    elif timestampid == '-1':
+        try:
+
+            reff[0].delete()
+            reff = []
+            return redirect('cart') 
+            
+
+        except Exception as r:
+            print(r)
+            print("###################################   411 ")
+            return redirect('cart')
+
+    return render(request, "MainApplication/public/DeleteConfirmationPageForCartItems.html")

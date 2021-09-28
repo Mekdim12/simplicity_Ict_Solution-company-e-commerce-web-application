@@ -14,7 +14,7 @@ urlpatterns = [
     path('signup',views.SignUp, name = 'signup'),
     path('public/dashboard',views.dashBoard, name="dashboard"),
     path('public/shop',views.Shop, name="shop"),
-    path('public/cart',views.Cart, name="cart"),
+    path('public/cart/',views.Cart, name="cart"),
     path('public/nocart',views.NoCart, name="nocart"),
     path('private/staff/dashboardstaff',views.DashBoardStaff, name="dashboardstaff"),
     path('private/staff/purchasingitems',views.PurchasingItems, name="purchasingitems"),
@@ -27,5 +27,8 @@ urlpatterns = [
     path('private/staff/DeleteConfirmationPageForPageContent/<str:timestampid>', views.DeletePageConent, name="deletepagecont"),
     path('private/staff/dashboardstaff/viewDetail/<str:timestampid>', views.ViewFullInfn, name="viewfullinfn"),
     path('private/staff/dashboardstaff/DeleteConfirmationPagePeoplesFeedBack/<str:timestampid>', views.DeleteFeedback, name="deletefeedback"),
-    
+    path('public/shop/CartChanged/<str:timestampid>',views.AddToCartButtonOperation, name="addToCart"),
+    path('public/cart/DeleteConfirmationPageForCartItems/<str:timestampid>', views.DeleteCartItems, name="deletecartitems"),
+
+
 ]
