@@ -4,6 +4,7 @@ from os import startfile
 
 from django.shortcuts import render, redirect
 from django.urls import conf
+from pyasn1_modules.rfc2459 import CommonName
 
 import pyrebase
 
@@ -311,6 +312,50 @@ def dashBoard(request):
 
     context = {"name": fullName, "greeting": greetingMessage}
 
+    at =  email.find('.')
+    email = email[:at] + '' + email[at+1:]
+    at =  email.find('@')
+    email = email[:at] + '-AT-' + email[at+1:]
+
+    try:
+        ref = db.reference('MarketActivity').child(email).child('Purchased') # checking if he every buys sth 
+
+        try:
+            prod = ref.child('Products')
+            for times in prod.get():
+                data = prod.get()[times]
+                ProductTimestamp = data['ProductTimestamp']
+                
+                product = db.reference('Products').child(ProductTimestamp.strip()).get()
+                print(product)
+
+        except:
+            pass
+        
+        try:
+            serv = ref.child('Services')
+            for times in serv.get():
+                data = serv.get()[times]
+                ProductTimestamp = data['ProductTimestamp']
+
+                service = db.reference('Services').child(ProductTimestamp.strip()).get()
+                print(service)
+
+
+
+        except:
+            pass
+
+
+        pass
+    except Exception as df:
+        print(df)
+        print("################################## 136")
+
+
+
+
+
     return render(request, 'MainApplication/public/DashBoardCustomer.html', context)
 
 
@@ -424,6 +469,8 @@ def reUsableForShopFunctions( request , context):
 
     return context
 
+
+
 def Shop(request):
     context = {}
     context['flag'] = False
@@ -442,8 +489,8 @@ def Cart(request):
         
         infns = dict( request.POST )
         
-        quantity = infns['quantity']
-        type = infns['type']
+        quantity = infns['quantity'][0]
+        type = infns['type'][0]
         timestamp = infns['val'][0]
 
 
@@ -582,7 +629,9 @@ def Cart(request):
             "customerTimestamp":customerTimestamp,
             "date":date,
             "quantity":quantity,
-            "type":type
+            "type":type,
+            "fullName":fullName,
+
         }
         
 
@@ -914,7 +963,10 @@ def DashBoardStaff(request):
         print("######################################  842")
 
     try: # u gonna do it when u add purachesed addes in customer section cuz u gonna add date when the they made purchasing
-        pass
+        ref = list(db.reference('MarketActivity').get().keys())
+
+        context['ActivelyEngaiging'] = len(ref)
+        
     except Exception as r:
         print(r)
         print("###################################### 4586")
@@ -1034,36 +1086,349 @@ def DashBoardStaff(request):
     return render(request, "MainApplication/private/staff/DashBoardStaff.html", context)
 
 
-def PurchasingItems(request):
+def PurchasingItems(request, timestamp):
 
-    """
-    iterate throug all and provide and id of container time stamp for the buttons so that they can navigate easily
+    mainContext = {}
+    if timestamp.strip() == "viewpage":
+        
+        """
+        iterate throug all and provide and id of container time stamp for the buttons so that they can navigate easily
 
-    infn need is just the name of prod and customer and a a date
-    """
+        infn need is just the name of prod and customer and a a date
+        """
 
-    try:
+        try:
+            ref = db.reference('MarketActivity')
+            context = {}
+            for emails in ref.get():
+                try:
+                    data = ref.get()[emails]['Purchased']
+                    prodTemp = {}
+                    try:
+                        product = data['Products']
+                        
+
+                        for timestamp in product:
+                            
+                            infn = product[timestamp]
+                            
+                            ProductTimestamp = infn['ProductTimestamp']
+                            customerTimestamp = infn['customerTimestamp']
+                            fullName = infn['fullName']
+                            date = infn['date']
+
+                            
+
+                            try:# get the product list 
+                                reff = db.reference('Products').child(ProductTimestamp.strip())
+
+                                prodcutname = reff.get()['prodcutname']
+
+
+                                prodTemp["prodcutname"] = prodcutname
+                                prodTemp["date"] = date
+                                prodTemp['fullName'] = fullName
+                                prodTemp['type'] = "Product"
+
+                                context[timestamp] = prodTemp
+                                prodTemp = {}
+
+
+
+                            except Exception as t:
+                                print(t)
+                                print("########################### 193")
+
+                        mainContext["product"] = context
+                    except: # This is for checking if customer has purchased prodouct
+                        pass
+                    
+                    
+                    ServTemp = {}
+                    try:
+                        services = data['Services']
+                        for timestamp in services:
+                            
+                            infn = services[timestamp]
+                            
+                            ProductTimestamp = infn['ProductTimestamp']
+                            fullName = infn['fullName']
+                            date = infn['date']
+
+                            
+
+                            try:# get the product list 
+                                reff = db.reference('Services').child(ProductTimestamp.strip())
+
+                                servicename = reff.get()['servicename']
+                                
+
+                                ServTemp["servicename"] = servicename
+                                ServTemp["date"] = date
+                                ServTemp['fullName'] = fullName
+                                ServTemp['type'] = "Service"
+
+                                context[timestamp] = ServTemp
+                                ServTemp = {}
+                            except:
+                                pass
+                        mainContext["Service"] = context
+                        
+                    except: # This is for checking if customer has purchased Customer
+                        print("############################### 100")
+
+                except:
+                    print("#################################### 99")
+            
+
+        except Exception as ert:
+            print(ert)
+            print("#################################  4533")
+
+    else:
         ref = db.reference('MarketActivity')
 
         for emails in ref.get():
-            try:
-                data = ref.get()[emails]['Purchased']
+            data = ref.get()[emails]
+            for items in data:
+                try:
+                    if items != "Purchased":
+                        continue
+                    
+                    PurchasedItem = data[items]
+
+                    ref = db.reference('MarketActivity').child(emails).child('Purchased')
+
+                    FLAG = False
+                    try: # to check if  required is product
+                        refere = list((ref.child('Products').get()).keys())
+                        
+                        if timestamp.strip() in refere:
+                            FLAG =True
+                            ref = ref.child('Products').child(timestamp)
+                            
+                    except:
+                        pass
+                    if not FLAG: 
+                        try:# to chech if required is service
+                            refere = list((ref.child('Services').get()).keys())
+
+                            if timestamp.strip() in refere:
+                                FLAG =True
+                                ref = ref.child('Services').child(timestamp)
+                        except:
+                            pass
+
+
+                    if FLAG:
+                        try:# the final case deletion
+                            ref.delete()
+                            return redirect('/private/staff/purchasingitems''/viewpage')
+                        except Exception as err:
+                            print(err)
+                            print("################################# 780")
+
+                except Exception as er:
+                    print(er)
+                    print("################################ 5669")
+    
+    
+    return render(request,  "MainApplication/private/staff/PurchasingItems.html", mainContext)
+
+
+def PurchasingItemsCustViewPage(request, timestampid):
+    context = {}
+    customerName= ""
+    customerPhoneNumber =""
+    customerEmail= ""
+
+    productName =""
+    ProductType =""
+    productDescription = ""
+    try:
+        ref = db.reference('MarketActivity')
+        for emails in ref.get():
+            data = ref.get()[emails]
+            FLAG = False
+            for types in data:
+                infns = data[types]
+
+                if types != 'Purchased':
+                    continue
+
+
+            
                 
+                try:
+                    products =list( infns['Products'].keys() )
+                    
+
+                    if timestampid.strip() in products:
+                        
+                        FLAG = True
+                        ref = ref.child(emails).child('Purchased').child('Products').child(timestampid.strip())
+                        
+                        
+                        # get ALL infn about the customer also prodcut
+                        
+                        prod = db.reference('Products').child((ref.get()['ProductTimestamp']).strip())
+                        
+                        
+                        productDescription = prod.get()['Description']
+                        productName = prod.get()['prodcutname']
+                        prodcutType = prod.get()['prodcutType']
+                        
+                        Cust = db.reference('User').child('Customer')
+                        dt = Cust.get()
+                        
+                        try:
+                            dtc =  dt['Company']
+                            cmp = list(dtc.keys())
+                            customerId = (ref.get()['customerTimestamp']).strip()
+                           
+                            if customerId in cmp:
+                                Cust = db.reference('User').child('Customer').child('Company').child(customerId).child('Detail')
+                                Cust= Cust.get()
+
+                                customerName = Cust['companyName']
+                                customerPhoneNumber = Cust['companyPhoneNumber']
+                                customerEmail = Cust['companyEmail']
+                                
+                        except: #
+                            pass
+                        
+                        try:
+                            
+                            dt =  dt['Individual']
+                            
+                            cmp = list(dt.keys())
+                            customerId = (ref.get()['customerTimestamp']).strip()
+                           
+                            
+                            if customerId in cmp:
+                                Cust = db.reference('User').child('Customer').child('Individual').child(customerId).child('Detail')
+                                Cust= Cust.get()
+                                
+                                customerName = Cust['fullName']
+                                customerPhoneNumber = Cust['phoneNumber']
+                                customerEmail = Cust['email']
+                                
+                        except:
+                                pass
+                        
+                        CHECKER = False 
+                        try:## check if its aready been set to pending status
+                            
+                            crtref = db.reference('PendingActivity').child(emails) #.push([timestampid.strip()])
+                            crtref = list((crtref.get()).values())
+
+                            if timestampid.strip() in crtref:
+                                CHECKER = True
+                                pass # it means its already here no need to 
 
 
-            except:
-                pass
+                        except:
+                            pass
+                        
+                        if not CHECKER:
+                            crtref = db.reference('PendingActivity').child(emails).push(timestampid.strip())
+                        
+                        break
+
+                except:
+                    pass
+                
+                if not FLAG:
+                    try:
+                        Service =list( infns['Services'].keys() )
+                        
+
+                        
+                        if timestampid.strip() in Service:
+                            FLAG = True
+                            ref = ref.child(emails).child('Purchased').child('Services').child(timestampid.strip())
+                            
+                            
+                            # get ALL infn about the customer also prodcut
+                            
+                            prod = db.reference('Services').child((ref.get()['ProductTimestamp']).strip())
+                            
+                            productDescription = prod.get()['Description']
+                            productName = prod.get()['servicename']
+                            prodcutType = prod.get()['serviceType']
 
 
-    except Exception as ert:
-        print(ert)
-        print("#################################  4533")
+                            Cust = db.reference('User').child('Customer')
+                            dt = Cust.get()
+                            
+                            try:
+                                dtcc =  dt['Company']
+                                cmp = list(dtcc.keys())
+                                customerId = (ref.get()['customerTimestamp']).strip()
+                            
+
+                                if customerId in cmp:
+                                    Cust = db.reference('User').child('Customer').child('Company').child(customerId).child('Detail')
+                                    Cust= Cust.get()
+
+                                    customerName = Cust['companyName']
+                                    customerPhoneNumber = Cust['companyPhoneNumber']
+                                    customerEmail = Cust['companyEmail']
+                                    
+                            except: #
+                                pass
+
+                            try:
+                                dt =  dt['Individual']
+                                cmp = list(dt.keys())
+                                customerId = (ref.get()['customerTimestamp']).strip()
+                            
+                                
+                                if customerId in cmp:
+                                    Cust = db.reference('User').child('Customer').child('Individual').child(customerId).child('Detail')
+                                    Cust= Cust.get()
+
+                                    customerName = Cust['fullName']
+                                    customerPhoneNumber = Cust['phoneNumber']
+                                    customerEmail = Cust['email']
+                            except:
+                                    pass
+
+                            CHECKER = False 
+                            try:## check if its aready been set to pending status
+                                
+                                crtref = db.reference('PendingActivity').child(emails) #.push([timestampid.strip()])
+                                crtref = list((crtref.get()).values())
+                                
+                                if timestampid.strip() in crtref:
+                                    CHECKER = True
+                                    pass # it means its already here no need to 
 
 
+                            except:
+                                pass
+                            
+                            if not CHECKER:
+                                crtref = db.reference('PendingActivity').child(emails).push(timestampid.strip())
+                            
+                            break
+                    except:
+                        pass
+        temp = {
+            "customerName" :customerName,
+            "customerEmail":customerEmail,
+            "customerPhoneNumber":customerPhoneNumber,
+            "prodcutType":prodcutType,
+            "productDescription":productDescription,
+            "productName":productName
+        }          
 
-    return render(request,  "MainApplication/private/staff/PurchasingItems.html")
+        context= temp
 
-
+    except Exception as rty:
+        print(rty)
+        print("##################################### 4987")
+    return render(request, "MainApplication/private/staff/CustomerDetailInfnShowingPage.html", context)
 
 
 def productAndService(request):

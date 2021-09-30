@@ -1,0 +1,52 @@
+
+
+
+
+
+{% load static %}
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+crossorigin="anonymous"></script>
+
+
+
+<div class="container">
+<div class="my-3" style="border: 29x black slolid; width: 700px; margin-left: auto; margin-right: auto;" class="row">
+    <fieldset  style="border: 29x black slolid;">
+        <legend class="h2"> <b> Customer Contact Information </b></legend>
+
+        
+        <form action="" class="form form-group">
+            <label for="name">Full Name</label>
+            <input class= " form-control w-100" style="pointer-events: none; " type="text" name="name" id="" value="{{ customerName }}" />
+            <label for="email">Email(address)</label>
+            <input class= " form-control w-100" style="pointer-events: none; " type="text" name="email" id="" value="{{ customerEmail }}"/>
+            <label for="phonenumber">Phone Number </label>
+            <input class= "form-control w-100" style="pointer-events: none; " type="text" name="phonenumber" value="{{ customerPhoneNumber }}" id=""/>
+         </form>
+
+        <legend class="h2"> <b> Requested Product/Service Information Detail</b> </legend>
+         <form action="">
+            <label for="productname"> Product/Service Name</label>
+            <input style="pointer-events: none; "  class ="form-control w-100" type="text"  value="{{ productName }}" name="productname">
+
+            <label for="ProdcutType"> Product/Service Type</label>
+            <input style="pointer-events: none; "  class ="form-control w-100" type="ProdcutType" value="{{ prodcutType }}" name="productname">
+
+            <label for="Description">Description About An Item </label>
+            <textarea  class= "w-100 form-control" name="Description"  style="resize: vertical; pointer-events: none;" id="" cols="30" rows="5">{{ productDescription }}</textarea>
+
+
+
+         </form>
+         
+         <a href="{% url 'purchasingitems' 'viewpage' %}">  <Button  class=" w-50 btn btn-lg btn-primary" style="margin-left: 25%;">  Back </Button> </a>
+    </fieldset>
+</div>
+</div>
