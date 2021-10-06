@@ -22,12 +22,12 @@
 
 
 
-function customerLoginNaviagationCahnger() {
-	alert("this is this");
-	document.getElementById("dashboard").style.removeProperty("display");
-	document.getElementById("signup").style.display = "none";
+// function customerLoginNaviagationCahnger() {
+// 	alert("this is this");
+// 	document.getElementById("dashboard").style.removeProperty("display");
+// 	document.getElementById("signup").style.display = "none";
 
-}
+// }
 
 
 
@@ -50,6 +50,10 @@ function test() {
 	var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
 	var itemPosNewAnimTop = activeItemNewAnim.position();
 	var itemPosNewAnimLeft = activeItemNewAnim.position();
+
+	
+
+
 	$(".hori-selector").css({
 		"top": itemPosNewAnimTop.top + "px",
 		"left": itemPosNewAnimLeft.left + "px",
@@ -88,10 +92,12 @@ $(".navbar-toggler").click(function () {
 jQuery(document).ready(function ($) {
 	// Get current path and find target link
 	var path = window.location.pathname.split("/").pop();
-
 	// Account for home page with empty path
+	
 	if (path == '') {
-		path = 'index.html';
+		path = "{% url 'main' %}" ;
+	}else if(path == 'aboutus'){
+		path = "{% url 'PublicAboutUs' %}"
 	}
 
 	var target = $('#navbarSupportedContent ul li a[href="' + path + '"]');

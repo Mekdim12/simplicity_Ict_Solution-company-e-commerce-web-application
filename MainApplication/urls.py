@@ -30,7 +30,7 @@ urlpatterns = [
     path('public/shop/CartChanged/<str:timestampid>',views.AddToCartButtonOperation, name="addToCart"),
     path('public/cart/DeleteConfirmationPageForCartItems/<str:timestampid>', views.DeleteCartItems, name="deletecartitems"),
     path('private/staff/purchasingitems/CustomerDetailInfnShowingPage/<str:timestampid>',views.PurchasingItemsCustViewPage, name="purchasingitemsinfnViewer"),
-    
+    path('public/dashboard/saveItemRating/<str:timestampid>',views.SaveItemRating, name="saveitemrating"),
 
 
 ]

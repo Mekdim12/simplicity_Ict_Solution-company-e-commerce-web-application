@@ -115,7 +115,32 @@
                </tr>
             </thead>
             <tbody class="table-success">
-               <tr style="line-height: 70px;">
+               {% for key , value in products.items %}
+               <tr style="line-height: 70px;"></tr>
+               <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
+                  src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
+               </td>
+                  {% for k ,v in value.items %}
+                     {% if k == 'prodcutname' %}
+                           <td>{{ v }}</td>
+                     {% endif %}
+                  {% endfor %}
+
+                  {% for k ,v in value.items %}
+                  {% if k == 'createdOn' %}
+                           <td>{{ v }}</td>
+                     {% endif %}
+                  {% endfor %}
+
+                  {% for k ,v in value.items %}
+                  {% if k == 'status' %}
+                           <td>{{ v }}</td>
+                     {% endif %}
+                  {% endfor %}
+                        
+                </tr>
+               {% endfor %}
+               <!-- <tr style="line-height: 70px;">
                   <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
                         src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
                   </td>
@@ -131,16 +156,7 @@
                   <td> this Name Holder </td>
                   <td> this Date Holder</td>
                   <td> this Status Holder </td>
-               </tr>
-
-               <tr style="line-height: 70px;">
-                  <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
-                        src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
-                  </td>
-                  <td> this Name Holder </td>
-                  <td> this Date Holder</td>
-                  <td> this Status Holder </td>
-               </tr>
+               </tr> -->
 
 
                
@@ -164,19 +180,46 @@
                <th>Service Name</th>
                <th>Date Of Request</th>
                <th>Status</th>
-               <!-- <th></th> -->
+               
             </tr>
          </thead>
          <tbody class="table-success">
+
+            {% for key,val in services.items %}
             <tr style="line-height: 70px;">
+               <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
+                  src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
+               </td>
+               {% for k,v in val.items %}
+                  {%if k == 'servicename' %}
+                     <td> {{ v }}</td>
+                  {% endif %}
+               {% endfor %}
+
+               {% for k,v in val.items %}
+                  {%if k == 'createdOn' %}
+                     <td> {{ v }}</td>
+                  {% endif %}
+               {% endfor %}
+
+               {% for k,v in val.items %}
+                  {%if k == 'status' %}
+                     <td> {{ v }}</td>
+                  {% endif %}
+               {% endfor %}
+                
+                  
+                  
+               </tr>
+            {% endfor %}
+            <!-- <tr style="line-height: 70px;">
                <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
                   src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
                </td> 
                <td> Name </td>
                <td> Date Holder Holder </td>
                <td> Status Holder</td>
-               <!-- <td><a class="btn btn-sm btn btn-danger" href=""> Revoke </a></td> -->
-
+               
             </tr>
             <tr style="line-height: 70px;">
                <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
@@ -185,19 +228,8 @@
                <td> Name </td>
                <td> Date Holder Holder </td>
                <td> Status Holder</td>
-               <!-- <td><a class="btn btn-sm btn btn-danger" href=""> Revoke </a></td> -->
-
-            </tr>
-            <tr style="line-height: 70px;">
-               <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
-                  src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
-               </td> 
-               <td> Name </td>
-               <td> Date Holder Holder </td>
-               <td> Status Holder</td>
-               <!-- <td><a class="btn btn-sm btn btn-danger" href=""> Revoke </a></td> -->
-
-            </tr>
+               
+            </tr> -->
          </tbody>
          
          </table>
@@ -226,39 +258,34 @@
             </tr>
          </thead>
          <tbody>
+            {% for key,val in forrating.items %}
+            
             <tr>
+               {% for k,v in val.items %}
+                  {% if k == 'name' %}
+                     <td> {{ v }} </td>
+                  {% endif %}
+               {% endfor %}
 
-               <td> Product </td>
-               <td class="text-center"> Lorem ip </td>
-               <td> <input type="number" max="5" min="1"> </td>
+               {% for k,v in val.items %}
+                  {% if k == 'date' %}
+                  <td class="text-center"> {{ v }} </td>
+                  {% endif %}
+               {% endfor %}
+
+             
+               <td> <input name="rate" type="number" max="5" min="1"> </td>
                <td> <textarea name="comment" id="" cols="30" rows="1"
                      style="resize: none; line-height: 30px;"></textarea> </td>
-                <td><a class="btn btn-sm btn btn-info" href=""> Save </a></td>
-
+               <td> <button type="submit"> <a  class="btn btn-sm btn btn-info" href="{% url 'saveitemrating' key  %}"> Save </a> </button></td>
+            
             </tr>
+           
+            {% endfor %}
+            
 
 
-            <tr>
-
-               <td> Product </td>
-               <td class="text-center"> Lorem ipsum, dolor sit amet </td>
-               <td> <input type="number" max="5" min="1"> </td>
-               <td> <textarea name="comment" id="" cols="30" rows="1"
-                     style="resize: none; line-height: 30px;"></textarea> </td>
-               <td><a class="btn btn-sm btn btn-info" href=""> Save </a></td>
-
-            </tr>
-
-
-            <tr>
-
-               <td> Product </td>
-               <td class="text-center"> Lorem ipsum, </td>
-               <td> <input type="number" max="5" min="1"> </td>
-               <td> <textarea name="comment" id="" cols="30" rows="1"
-                     style="resize: none; line-height: 30px;"></textarea> </td>
-                     <td><a class="btn btn-sm btn btn-info" href=""> Save </a></td>
-            </tr>
+            
          </tbody>
       </table>
 

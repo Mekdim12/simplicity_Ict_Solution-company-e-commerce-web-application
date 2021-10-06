@@ -266,6 +266,7 @@ def SignUp(request):
 
 def dashBoard(request):
 
+    context = {}
     userSession = request.session['UserTokenId']
 
     session_Information = auth_.get_account_info(userSession)
@@ -320,6 +321,15 @@ def dashBoard(request):
     try:
         ref = db.reference('MarketActivity').child(email).child('Purchased') # checking if he every buys sth 
 
+
+        # before that check whether that its status if its acceppeted by the staff set it sth different
+        acceptedlist = []
+        try:
+            referenc = (db.reference('PendingActivity').child(email).get().values())
+            acceptedlist = referenc
+        except:
+            pass
+        tempOne = {}
         try:
             prod = ref.child('Products')
             for times in prod.get():
@@ -327,11 +337,23 @@ def dashBoard(request):
                 ProductTimestamp = data['ProductTimestamp']
                 
                 product = db.reference('Products').child(ProductTimestamp.strip()).get()
-                print(product)
+                prodcutname= product['prodcutname']
+                createdOn= product['createdOn']
+                status = ""
+                if times in acceptedlist:
+                    status = "Delivered"
+                else:
+                    status = "Pending"
+
+                tempOne[times] = {
+                    "prodcutname":prodcutname,
+                    "createdOn":createdOn,
+                    "status":status
+                }
 
         except:
             pass
-        
+        tempTwo = {}
         try:
             serv = ref.child('Services')
             for times in serv.get():
@@ -339,23 +361,84 @@ def dashBoard(request):
                 ProductTimestamp = data['ProductTimestamp']
 
                 service = db.reference('Services').child(ProductTimestamp.strip()).get()
-                print(service)
+                servicename = service['servicename']
+                createdOn= service['createdOn']
 
+                status = ""
+                if times in acceptedlist:
+                    status = "Delivered"
+                else:
+                    status = "Pending"
 
-
+                tempTwo[times] = {
+                    "servicename":servicename,
+                    "createdOn":createdOn,
+                    "status":status
+                        }
         except:
             pass
 
 
-        pass
+        context['products'] = tempOne
+        context['services'] = tempTwo
+
+        
     except Exception as df:
         print(df)
         print("################################## 136")
 
 
 
+    try: # trying to get the service that is already provided to cusstomer and getting feedback on them
+        referList =  list ( (db.reference('PendingActivity').child(email).get()).values()) 
+        
+        items = db.reference('MarketActivity').child(email).child('Purchased')
+        temp = {}
+        try:
+            prodc = items.child('Products')
+            
+            for ts in referList:
+                
+                tmp = prodc.child(ts)
+                if not tmp.get() == None:
+                    newref = db.reference('Products').child(tmp.get()['ProductTimestamp'].strip()).get()        
+                    name = newref['prodcutname']
+                    date = tmp.get()['date']
+                    temp[ts] = {
+                        "name":name,
+                        "date":date 
+                    }
 
+                    
+        except:
+            pass
+        
+        try:
+            servi = items.child('Services')
 
+            for ts in referList:
+                tmp = servi.child(ts)
+                if not tmp.get() == None:
+                    newref = db.reference('Services').child(tmp.get()['ProductTimestamp'].strip()).get()
+                    name = newref['servicename']
+                    date = tmp.get()['date']
+
+                    temp[ts] = {
+                        "name":name,
+                        "date":date 
+                    }
+                
+
+        except:
+            pass
+
+          
+        context['forrating'] = temp
+        
+    except Exception as r:
+        print(r)
+        print("##########################################  1498")
+    # print(context)
     return render(request, 'MainApplication/public/DashBoardCustomer.html', context)
 
 
@@ -2067,3 +2150,37 @@ def DeleteCartItems(request, timestampid):
             return redirect('cart')
 
     return render(request, "MainApplication/public/DeleteConfirmationPageForCartItems.html")
+
+
+
+def SaveItemRating(request, timestampid):
+    
+    global reff
+    print(request.POST)
+    if timestampid.strip() != '-1' and timestampid.strip() != '1':
+        import datetime
+        dt = datetime.datetime.now().strftime('%d-%B-%Y')
+        temp = {
+            'timestampOfItem': timestampid,
+            "date":dt
+        }
+
+
+        
+        reff.append(temp)
+        
+
+    elif timestampid == '-1':
+        try:
+            ref = db.reference('ItemsRating').push(reff[0])
+            reff = []
+            return redirect('dashboard') 
+            
+
+        except Exception as r:
+            print(r)
+            print("###################################   411 ")
+            return redirect('dashboard')
+
+
+    return render(request, "MainApplication/public/SaveConfirmationPage.html")

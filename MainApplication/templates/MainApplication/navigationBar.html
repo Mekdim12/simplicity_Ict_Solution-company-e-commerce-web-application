@@ -1,37 +1,28 @@
-
-<nav class="fixed-top navbar navbar-expand-custom navbar-mainbg">
-    <a class="navbar-brand navbar-logo" href="#">Simplicty Ict Solution</a>
+<nav class="navbar navbar-expand-custom navbar-mainbg">
+    <a class="navbar-brand navbar-logo" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <i class="fas fa-bars text-white"></i>
     </button>
-    <!-- <a class="navbar-brand navbar-logo" href="#">Simplicty Ict Solution</a> -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        
         <ul class="navbar-nav ml-auto">
             <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-            <li class="nav-item " >
-                <a class="nav-link" id="dashboard" style="display: none;"   href="javascript:void(0);"><i class="fas fa-tachometer-alt" ></i>Dashboard</a>
+            <li class="nav-item">
+                <a class="nav-link"  href="{% url 'login' %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
             </li>
-            <li class="nav-item " >
-                <a class="nav-link" id="cart" style="display: none;" href="javascript:void(0);"><i class="fas fa-tachometer-alt" ></i>Cart</a>
+            <li id="log" class="nav-item ">
+                <a class="nav-link" href=""><i class="far fa-address-book"></i>Address Book</a>
             </li>
-            <li class="nav-item " >
-                <a class="nav-link" id="shop" style="display: none;" href="javascript:void(0);"><i class="fas fa-tachometer-alt" ></i>Shop</a>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Components</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" id="home" href=""><i class="far fa-address-book"></i>Home</a>
+                <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Calendar</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id = "aboutus" href="javascript:void(0);"><i class="far fa-clone"></i>About Us</a>
+                <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contactus" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Contact Us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id= "login" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="signup" href="javascript:void(0);"><i class="far fa-copy"></i>Sign Up</a>
+                <a class="nav-link" href="javascript:void(0);"><i class="far fa-copy"></i>Documents</a>
             </li>
         </ul>
     </div>
