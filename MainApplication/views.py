@@ -97,37 +97,52 @@ def PublicAboutUs(request):
 
 
 def PublicContactUs(request):
-
+    context= {}
+    context ['flag'] = "0"
+    
     if request.method == 'POST':
+        
         data = dict(request.POST)
 
         name = data['name'][0]
-        comment = data['comment'][0]
-        import datetime
-        month = int( datetime.datetime.now().strftime('%m'))
+       
         
-        try:
-            ref = db.reference('CommentOrFeedBack').child(str(month))
-            import datetime
-            dt = datetime.datetime.now().strftime('%d-%B-%Y')
-            temp = {
-                'name':name,
-                'comment':comment,
-                'createdOn':dt
-            }
-            
-            ref.push(temp)
-            
-            return redirect('PublicContactUs')
 
-        except Exception as er:
-            print(er)
-            print("############ 753")
-         
-    return render(request, 'MainApplication/public/ContactUs.html')
+        comment = data['comment'][0]
+
+        if name.strip() == "" and comment.strip() == "":
+            context = {"flag":"3"}
+        elif name.strip() == "":
+            context = {"flag":"1"}
+        elif comment.strip() == "":
+            context = {"flag":"2"}
+        else:
+            import datetime
+            month = int( datetime.datetime.now().strftime('%m'))
+            
+            try:
+                ref = db.reference('CommentOrFeedBack').child(str(month))
+                import datetime
+                dt = datetime.datetime.now().strftime('%d-%B-%Y')
+                temp = {
+                    'name':name,
+                    'comment':comment,
+                    'createdOn':dt
+                }
+                
+                ref.push(temp)
+                
+                return redirect('PublicContactUs')
+
+            except Exception as er:
+                print(er)
+                print("############ 753")
+       
+    return render(request, 'MainApplication/public/ContactUs.html', context)
 
 
 def Login(request):
+    
     """
     guest_Email
     guest_password
@@ -135,32 +150,143 @@ def Login(request):
     password_staff
     remberme
     """
+    context = {}
+    context["error"] = "0"
     
+
     if request.method == "POST":
         datas = request.POST
         if datas["CHECKER"] == "home":
 
             email = datas["guest_Email"]
             password = datas["guest_password"]
-            userId = auth_.sign_in_with_email_and_password(email, password)
-            request.session["UserTokenId"] = str(userId['idToken'])
-            return redirect('dashboard')
+            try:
+                temp = []
+                userId = auth_.sign_in_with_email_and_password(email, password)
+
+                ref =list(  db.reference('User').child('Customer').get())
+                for keys in ref:
+                    
+                    ref2 =   db.reference('User').child('Customer').get()[keys] ['Detail']
+                    ref2 = ref2.get('email')
+                    temp.append(ref2)
+                    
+                    
+                    
+                if email.strip() in temp:
+                    request.session["UserTokenId"] = str(userId['idToken'])
+                    return redirect('dashboard')
+                else:
+                    context['error'] = "2"
+                    
+                
+               
+                
+                
+                
+            except Exception as e:
+
+                import ast
+                
+
+                errorMessage = str(e)
+                starting = errorMessage.find('{')
+                errorMessage = errorMessage[starting:]
+                # print(errorMessage)
+                try:
+                    dictionary = ast.literal_eval(errorMessage)
+                    errorMessage = dictionary['error']['message']
+                    code = dictionary['error']['code']
+                    
+                    
+
+                    if int(code) == 400:
+                        
+                        if errorMessage == "MISSING_PASSWORD":
+                            context['error'] = "1"
+                        elif errorMessage == "INVALID_EMAIL":
+                            context['error'] = "2"
+                        elif errorMessage == "INVALID_PASSWORD":
+                            context["error"] = "4"
+                        elif errorMessage == "EMAIL_NOT_FOUND":
+                            context["error"] = "5"
+                        elif errorMessage == "TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.":
+                            context['error'] = "3"
+                    
+                except Exception as er:
+                    print("################ it means another error  ############ another one :)")
+                    print(er)
+
+
+            
+
+
+
+            
 
         elif datas["CHECKER"] == "away":
             emailOrUserName = datas["UserName_staff"]
             password = datas["password_staff"]
-            userId = auth_.sign_in_with_email_and_password(
-                emailOrUserName, password)
-            
-            request.session["UserTokenId"] = str(userId)
-            return redirect('dashboard')
 
-    return render(request, 'MainApplication/LogIn.html')
+            try:
+                userId = auth_.sign_in_with_email_and_password(
+                    emailOrUserName, password)
+                temp = []
+                ref =list(  db.reference('User').child('Company').get())
+                for keys in ref:
+                    
+                    ref2 =   db.reference('User').child('Company').get()[keys] ['Detail']
+                    print(ref2)
+                    ref2 = ref2.get('companyEmail')
+                    temp.append(ref2)
+                    
+                    
+                    
+                if emailOrUserName.strip() in temp:
+                    request.session["UserTokenId"] = str(userId['idToken'])
+                    return redirect('dashboardstaff')
+                else:
+                    context['error'] = "2"
+
+
+            except Exception as e:
+                import ast
+
+                errorMessage = str(e)
+                starting = errorMessage.find('{')
+                errorMessage = errorMessage[starting:]
+                
+
+                try:
+                    dictionary = ast.literal_eval(errorMessage)
+                    errorMessage = dictionary['error']['message']
+                    code = dictionary['error']['code']
+                    
+                    
+
+                    if int(code) == 400:
+                        
+                        if errorMessage == "MISSING_PASSWORD":
+                            context['error'] = "1"
+                        elif errorMessage == "INVALID_EMAIL":
+                            context['error'] = "2"
+                        elif errorMessage == "INVALID_PASSWORD":
+                            context["error"] = "4"
+                        elif errorMessage == "EMAIL_NOT_FOUND":
+                            context["error"] = "5"
+                        elif errorMessage == "TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.":
+                            context['error'] = "3"
+                    
+                except Exception as er:
+                    print("################ it means another error  ############ another one :)")
+                    print(er)
+    return render(request, 'MainApplication/LogIn.html', context)
 
 
 def SignUp(request):
-
-    datas = request.POST
+    context = {}
+    context ["error"] = "0" 
+   
 
     """
      First_Name
@@ -185,9 +311,13 @@ def SignUp(request):
      Adress
      Company_Type
     """
-
+    
     if request.method == "POST":
-        dbQuery = database.child("User").child("Customer")
+        datas = request.POST
+        # dbQuery = database.child("User").child("Customer")
+        dbQuery = db.reference("User").child("Company")
+        dbQuery2 = db.reference('User').child("Customer")
+
         email = ""
         password1 = ""
         password2 = ""
@@ -207,7 +337,24 @@ def SignUp(request):
 
             password1 = passwordOne
             password2 = passwordTwo
+            
             email = companyEmail
+
+            
+            
+            if password1.strip() != password2.strip():
+                context = {"error": "1"}
+            elif fullName.strip() == "":
+                context = {"error": "2"}
+            elif email.strip() == "":
+                context = {"error": "3"}
+            elif companyName.strip() == "":
+                context = {"error": "4"}
+            elif companyPhoneNumber.strip() == "":
+                context = {"error": "5"}
+
+
+            
 
             detail = {"fullName": fullName, "companyName": companyName, "companyEmail": companyEmail,
                       "companyPhoneNumber": companyPhoneNumber, "companyAdress": companyAdress, "companyType": companyType}
@@ -226,6 +373,15 @@ def SignUp(request):
             password1 = passwordOne
             password2 = passwordTwo
 
+            if password1.strip() != password2.strip():
+                context = {"error": "7"}
+            elif fullName.strip() == "":
+                context = {"error": "8"}
+            elif email.strip() == "":
+                context = {"error": "9"}
+            elif phoneNumber.strip() == "":
+                context = {"error": "6"}
+
             detail = {"fullName": fullName, "email": email, "gender": gender,
                       "phoneNumber": phoneNumber, "securityDetail": securityDetail}
 
@@ -235,7 +391,14 @@ def SignUp(request):
                 user = auth_.create_user_with_email_and_password(
                     email, password2)
                 uid = user['localId']
-                dbQuery.child(str(uid)).set({"Detail": detail, "Status": "1"})
+                if  datas.get('CHECKER') == "home":
+
+                    dbQuery2.child(str(uid)).set({"Detail": detail, "Status": "1"})
+                               
+                elif datas.get('CHECKER') == "away":
+                    
+                    dbQuery.child(str(uid)).set({"Detail": detail, "Status": "1"})
+                
                 return redirect('login')
             except Exception as e:
                 import ast
@@ -243,25 +406,53 @@ def SignUp(request):
                 errorMessage = str(e)
                 starting = errorMessage.find('{')
                 errorMessage = errorMessage[starting:]
-
+                print(" --------------")
+                print(errorMessage)
+                print("* ********* * *** ")
                 try:
                     dictionary = ast.literal_eval(errorMessage)
                     errorMessage = dictionary['error']['message']
                     code = dictionary['error']['code']
 
                     if int(code) == 400:
+                        
                         if errorMessage == 'EMAIL_EXISTS':
-                            pass
+                            
+                            if  datas.get('CHECKER') == "home":
+                                context = { 'error': "9"}
+                            elif datas.get('CHECKER') == "away":
+                                context = {'error' : "3" }
                         elif errorMessage == 'WEAK_PASSWORD : Password should be at least 6 characters':
-                            pass
+                            if  datas.get('CHECKER') == "home":
+                                context = {'error': "7"}
+                            elif datas.get('CHECKER') == "away":
+                                context = { 'error' : "1"}
+                        if errorMessage == "MISSING_PASSWORD":
+                            if  datas.get('CHECKER') == "home":
+                                context = {'error': "7"}
+                            elif datas.get('CHECKER') == "away":
+                                context = {'error' : "1"}
 
-                    print(errorMessage)
+                        elif errorMessage == "INVALID_EMAIL":
+                            if  datas.get('CHECKER') == "home":
+                                context = { 'error': "9"}
+                            elif datas.get('CHECKER') == "away":
+                                context = {'error' : "3" }
+                        elif errorMessage == "INVALID_PASSWORD":
+                            if  datas.get('CHECKER') == "home":
+                                context = {'error': "7"}
+                            elif datas.get('CHECKER') == "away":
+                                context = { 'error' : "1"}
+                
+                    
                 except Exception as er:
-                    print("################ it means another error  ############")
+                    print("################ it means another error  ############ buffalo")
                     print(er)
-
-            #
-    return render(request, 'MainApplication/SignUp.html')
+        else:
+            context = {"error": "1"}
+        # the two password are not the same 
+    print(context)
+    return render(request, 'MainApplication/SignUp.html', context)
 
 
 def dashBoard(request):
@@ -269,20 +460,40 @@ def dashBoard(request):
     context = {}
     userSession = request.session['UserTokenId']
 
+   
+
     session_Information = auth_.get_account_info(userSession)
+    
     localId = session_Information['users'][0]['localId']
 
-    companyRef = dict(database.child('User').child(
-        'Customer').child('Company').get().val())
-    IndividualRef = dict(database.child('User').child(
-        'Customer').child('Individual').get().val())
 
+
+
+    # companyRef = dict(database.child('User').child(
+    #     'Customer').child('Company').get().val())
+    IndividualRef = db.reference('User').child("Customer").get()
+    
+    # IndividualRef = dict(database.child('User').child(
+    #     'Customer').child('Individual').get().val('Customer'))
+    companyRef = db.reference('User').child('Company').get()
+
+    
+
+
+
+
+    
     companyRef = companyRef.keys()
     IndividualRef = IndividualRef.keys()
 
+    
+
     if localId in companyRef:
-        companyRef = dict(database.child('User').child(
-            'Customer').child('Company').child(str(localId)).get().val())
+        
+        # companyRef = dict(database.child('User').child(
+        #     'Customer').child('Company').child(str(localId)).get().val())
+        companyRef = db.reference('User').child("Company").child(str(localId)).get()
+      
         fullName = companyRef['Detail']['companyName']
         email = companyRef['Detail']['companyEmail']
 
@@ -296,10 +507,16 @@ def dashBoard(request):
         """
 
     elif localId in IndividualRef:
-        IndividualRef = dict(database.child('User').child(
-            'Customer').child('Individual').child(str(localId)).get().val())
+        
+        # IndividualRef = dict(database.child('User').child(
+        #     'Customer').child('Individual').child(str(localId)).get().val())
+
+
+        IndividualRef = db.reference('User').child('Customer').child(str(localId)).get() 
+
         fullName = IndividualRef['Detail']['fullName']
         email = IndividualRef['Detail']['email']
+        
 
     import datetime
     currentTime = datetime.datetime.now()
@@ -319,68 +536,86 @@ def dashBoard(request):
     email = email[:at] + '-AT-' + email[at+1:]
 
     try:
-        ref = db.reference('MarketActivity').child(email).child('Purchased') # checking if he every buys sth 
-
-
+        
+        # ref = db.reference('MarketActivity').child(email).child('Purchased') # checking if he every buys sth 
+        ref = db.reference('MarketActivity').child(email)
         # before that check whether that its status if its acceppeted by the staff set it sth different
         acceptedlist = []
         try:
             referenc = (db.reference('PendingActivity').child(email).get().values())
             acceptedlist = referenc
+             
         except:
             pass
-        tempOne = {}
-        try:
-            prod = ref.child('Products')
-            for times in prod.get():
-                data = prod.get()[times]
-                ProductTimestamp = data['ProductTimestamp']
+
+        
+        if ref.get() is not None or ref.get() != {}:
+            tempOne = {}
+            try:
+                prod = ref.child('Products')
                 
-                product = db.reference('Products').child(ProductTimestamp.strip()).get()
-                prodcutname= product['prodcutname']
-                createdOn= product['createdOn']
-                status = ""
-                if times in acceptedlist:
-                    status = "Delivered"
-                else:
-                    status = "Pending"
+                for times in prod.get():
+                    
+                    data = prod.get()[times]
+                    # ProductTimestamp = data['ProductTimestamp']
+                    ProductTimestamp = data['timestampid']
+                    
+                    product = db.reference('Products').child(ProductTimestamp.strip()).get()
 
-                tempOne[times] = {
-                    "prodcutname":prodcutname,
-                    "createdOn":createdOn,
-                    "status":status
-                }
+                    prodcutname= product['prodcutname']
+                    createdOn= product['createdOn']
+                    status = ""
 
-        except:
+                    if times in acceptedlist:
+                        status = "Delivered"
+                    else:
+                        status = "Pending"
+
+                    tempOne[times] = {
+                        "prodcutname":prodcutname,
+                        "createdOn":createdOn,
+                        "status":status
+                    }
+
+                    
+            except:
+                pass
+            tempTwo = {}
+            try:
+                serv = ref.child('Services')
+                for times in serv.get():
+                    data = serv.get()[times]
+                    # ProductTimestamp = data['ProductTimestampid']
+                    ProductTimestamp = data['timestampid']
+
+                    service = db.reference('Services').child(ProductTimestamp.strip()).get()
+                    servicename = service['servicename']
+                    createdOn= service['createdOn']
+
+                    status = ""
+                    if times in acceptedlist:
+                        status = "Delivered"
+                    else:
+                        status = "Pending"
+
+                    tempTwo[times] = {
+                        "servicename":servicename,
+                        "createdOn":createdOn,
+                        "status":status
+                            }
+            except:
+                pass
+
+
+            context['products'] = tempOne
+            context['services'] = tempTwo
+
+            numberProdcuts = len(tempOne.keys())
+            numberServices = len(tempTwo.keys())
+            context['prod'] = numberProdcuts
+            context['serv'] = numberServices
+        else:
             pass
-        tempTwo = {}
-        try:
-            serv = ref.child('Services')
-            for times in serv.get():
-                data = serv.get()[times]
-                ProductTimestamp = data['ProductTimestamp']
-
-                service = db.reference('Services').child(ProductTimestamp.strip()).get()
-                servicename = service['servicename']
-                createdOn= service['createdOn']
-
-                status = ""
-                if times in acceptedlist:
-                    status = "Delivered"
-                else:
-                    status = "Pending"
-
-                tempTwo[times] = {
-                    "servicename":servicename,
-                    "createdOn":createdOn,
-                    "status":status
-                        }
-        except:
-            pass
-
-
-        context['products'] = tempOne
-        context['services'] = tempTwo
 
         
     except Exception as df:
@@ -435,16 +670,70 @@ def dashBoard(request):
           
         context['forrating'] = temp
         
+        accepted = len(temp.keys())
+        context['accept'] = accepted
+
     except Exception as r:
         print(r)
         print("##########################################  1498")
     # print(context)
+
     return render(request, 'MainApplication/public/DashBoardCustomer.html', context)
+
+
+
+
+
+
+
 
 
 def reUsableForShopFunctions( request , context):
      
+    userSession = request.session['UserTokenId']
+
+   
+
+    session_Information = auth_.get_account_info(userSession)
     
+    localId = session_Information['users'][0]['localId']
+
+
+    IndividualRef = db.reference('User').child("Customer").get()
+    
+   
+    companyRef = db.reference('User').child('Company').get()
+
+    companyRef = companyRef.keys()
+    IndividualRef = IndividualRef.keys()
+
+    
+
+    if localId in companyRef:
+        companyRef = db.reference('User').child("Company").child(str(localId)).get()
+        fullName = companyRef['Detail']['companyName']
+        email = companyRef['Detail']['companyEmail']
+
+    elif localId in IndividualRef:
+        IndividualRef = db.reference('User').child('Customer').child(str(localId)).get() 
+        fullName = IndividualRef['Detail']['fullName']
+        email = IndividualRef['Detail']['email']
+        
+
+    import datetime
+    currentTime = datetime.datetime.now()
+
+    if currentTime.hour < 12:
+        greetingMessage = 'Good morning.'
+    elif 12 <= currentTime.hour < 18:
+        greetingMessage = 'Good afternoon.'
+    else:
+        greetingMessage = 'Good evening.'
+
+    context ["name"] = fullName
+    context ["greeting"] = greetingMessage
+
+
     try: # this for product handling 
         dbref = db.reference('Products')
         
@@ -557,6 +846,229 @@ def reUsableForShopFunctions( request , context):
 def Shop(request):
     context = {}
     context['flag'] = False
+
+
+   
+    userSession = request.session['UserTokenId']
+
+   
+
+    session_Information = auth_.get_account_info(userSession)
+    
+    localId = session_Information['users'][0]['localId']
+
+
+
+
+    # companyRef = dict(database.child('User').child(
+    #     'Customer').child('Company').get().val())
+    IndividualRef = db.reference('User').child("Customer").get()
+    
+    # IndividualRef = dict(database.child('User').child(
+    #     'Customer').child('Individual').get().val('Customer'))
+    companyRef = db.reference('User').child('Company').get()
+
+    
+
+
+
+
+    
+    companyRef = companyRef.keys()
+    IndividualRef = IndividualRef.keys()
+
+    
+
+    if localId in companyRef:
+        
+        # companyRef = dict(database.child('User').child(
+        #     'Customer').child('Company').child(str(localId)).get().val())
+        companyRef = db.reference('User').child("Company").child(str(localId)).get()
+      
+        fullName = companyRef['Detail']['companyName']
+        email = companyRef['Detail']['companyEmail']
+
+        """
+        companyAdress:
+        companyEmail
+        companyName
+        companyPhoneNumber
+        companyType
+        fullName
+        """
+
+    elif localId in IndividualRef:
+        
+        # IndividualRef = dict(database.child('User').child(
+        #     'Customer').child('Individual').child(str(localId)).get().val())
+
+
+        IndividualRef = db.reference('User').child('Customer').child(str(localId)).get() 
+
+        fullName = IndividualRef['Detail']['fullName']
+        email = IndividualRef['Detail']['email']
+        
+
+    import datetime
+    currentTime = datetime.datetime.now()
+
+    if currentTime.hour < 12:
+        greetingMessage = 'Good morning.'
+    elif 12 <= currentTime.hour < 18:
+        greetingMessage = 'Good afternoon.'
+    else:
+        greetingMessage = 'Good evening.'
+
+    # context = {"name": fullName, "greeting": greetingMessage}
+
+    at =  email.find('.')
+    email = email[:at] + '' + email[at+1:]
+    at =  email.find('@')
+    email = email[:at] + '-AT-' + email[at+1:]
+
+    try:
+        
+        # ref = db.reference('MarketActivity').child(email).child('Purchased') # checking if he every buys sth 
+        ref = db.reference('MarketActivity').child(email)
+        # before that check whether that its status if its acceppeted by the staff set it sth different
+        acceptedlist = []
+        try:
+            referenc = (db.reference('PendingActivity').child(email).get().values())
+            acceptedlist = referenc
+             
+        except:
+            pass
+
+        
+        if ref.get() is not None or ref.get() != {}:
+            tempOne = {}
+            try:
+                prod = ref.child('Products')
+                
+                for times in prod.get():
+                    
+                    data = prod.get()[times]
+                    # ProductTimestamp = data['ProductTimestamp']
+                    ProductTimestamp = data['timestampid']
+                    
+                    product = db.reference('Products').child(ProductTimestamp.strip()).get()
+
+                    prodcutname= product['prodcutname']
+                    createdOn= product['createdOn']
+                    status = ""
+
+                    if times in acceptedlist:
+                        status = "Delivered"
+                    else:
+                        status = "Pending"
+
+                    tempOne[times] = {
+                        "prodcutname":prodcutname,
+                        "createdOn":createdOn,
+                        "status":status
+                    }
+
+                    
+            except:
+                pass
+            tempTwo = {}
+            try:
+                serv = ref.child('Services')
+                for times in serv.get():
+                    data = serv.get()[times]
+                    # ProductTimestamp = data['ProductTimestampid']
+                    ProductTimestamp = data['timestampid']
+
+                    service = db.reference('Services').child(ProductTimestamp.strip()).get()
+                    servicename = service['servicename']
+                    createdOn= service['createdOn']
+
+                    status = ""
+                    if times in acceptedlist:
+                        status = "Delivered"
+                    else:
+                        status = "Pending"
+
+                    tempTwo[times] = {
+                        "servicename":servicename,
+                        "createdOn":createdOn,
+                        "status":status
+                            }
+            except:
+                pass
+
+
+            # context['products'] = tempOne
+            # context['services'] = tempTwo
+
+            numberProdcuts = len(tempOne.keys())
+            numberServices = len(tempTwo.keys())
+            context['prod'] = numberProdcuts
+            context['serv'] = numberServices
+        else:
+            pass
+
+        
+    except Exception as df:
+        print(df)
+        print("################################## 136")
+
+
+
+    try: # trying to get the service that is already provided to cusstomer and getting feedback on them
+        referList =  list ( (db.reference('PendingActivity').child(email).get()).values()) 
+        
+        items = db.reference('MarketActivity').child(email).child('Purchased')
+        temp = {}
+        try:
+            prodc = items.child('Products')
+            
+            for ts in referList:
+                
+                tmp = prodc.child(ts)
+                if not tmp.get() == None:
+                    newref = db.reference('Products').child(tmp.get()['ProductTimestamp'].strip()).get()        
+                    name = newref['prodcutname']
+                    date = tmp.get()['date']
+                    temp[ts] = {
+                        "name":name,
+                        "date":date 
+                    }
+
+                    
+        except:
+            pass
+        
+        try:
+            servi = items.child('Services')
+
+            for ts in referList:
+                tmp = servi.child(ts)
+                if not tmp.get() == None:
+                    newref = db.reference('Services').child(tmp.get()['ProductTimestamp'].strip()).get()
+                    name = newref['servicename']
+                    date = tmp.get()['date']
+
+                    temp[ts] = {
+                        "name":name,
+                        "date":date 
+                    }
+                
+
+        except:
+            pass
+
+          
+        # context['forrating'] = temp
+        
+        accepted = len(temp.keys())
+        context['accept'] = accepted
+
+    except Exception as r:
+        print(r)
+        print("##########################################  1498")
+
+
     ret = reUsableForShopFunctions(request, context)
     return render(request, "MainApplication/public/Shop.html", context)
 
@@ -581,25 +1093,28 @@ def Cart(request):
 
         session_Information = auth_.get_account_info(userSession)
         localId = session_Information['users'][0]['localId']
+        """
+        companyRef = dict(database.child('User').child('Customer').child('Company').get().val())
+        
+        
+        IndividualRef = dict(database.child('User').child('Customer').child('Individual').get().val())
+        """
+        companyRef = db.reference('User').child('Company').get()
 
-        companyRef = dict(database.child('User').child(
-            'Customer').child('Company').get().val())
-        IndividualRef = dict(database.child('User').child(
-            'Customer').child('Individual').get().val())
+        
+        IndividualRef = db.reference('User').child('Customer').get()
 
         companyRef = companyRef.keys()
         IndividualRef = IndividualRef.keys()
 
         if localId in companyRef:
-            companyRef = dict(database.child('User').child(
-                'Customer').child('Company').child(str(localId)).get().val())
+            companyRef = db.reference('User').child('Company').child(str(localId)).get()
             fullName = companyRef['Detail']['companyName']
             email = companyRef['Detail']['companyEmail']
 
 
         elif localId in IndividualRef:
-            IndividualRef = dict(database.child('User').child(
-                'Customer').child('Individual').child(str(localId)).get().val())
+            IndividualRef = db.reference('User').child('Customer').child(str(localId)).get()
             fullName = IndividualRef['Detail']['fullName']
             email = IndividualRef['Detail']['email']
         
@@ -677,7 +1192,7 @@ def Cart(request):
         date = datetime.datetime.now().strftime('%Y-%B-%d')
 
 
-        cust = db.reference('User').child('Customer')
+        cust = db.reference('User')
         customerTimestamp = ""
         for typee in cust.get():
             data = cust.get()[typee]
@@ -689,7 +1204,7 @@ def Cart(request):
                  if typee == 'Company':
                      currentEmail = infn['Detail']['companyEmail']
                      
-                 elif typee == 'Individual':
+                 elif typee == 'Customer':
                      currentEmail = infn['Detail']['email']
                      
                  
@@ -737,17 +1252,24 @@ def Cart(request):
         session_Information = auth_.get_account_info(userSession)
         localId = session_Information['users'][0]['localId']
 
-        companyRef = dict(database.child('User').child(
-            'Customer').child('Company').get().val())
-        IndividualRef = dict(database.child('User').child(
-            'Customer').child('Individual').get().val())
+        # companyRef = dict(database.child('User').child(
+        #     'Customer').child('Company').get().val())
+        # IndividualRef = dict(database.child('User').child(
+        #     'Customer').child('Individual').get().val())
+        companyRef = db.reference('User').child('Company').get()
+
+        
+        IndividualRef = db.reference('User').child('Customer').get()
 
         companyRef = companyRef.keys()
         IndividualRef = IndividualRef.keys()
 
         if localId in companyRef:
-            companyRef = dict(database.child('User').child(
-                'Customer').child('Company').child(str(localId)).get().val())
+            # companyRef = dict(database.child('User').child(
+            #     'Customer').child('Company').child(str(localId)).get().val())
+
+            companyRef = db.reference('User').child('Company').child(str(localId)).get()
+
             fullName = companyRef['Detail']['companyName']
             email = companyRef['Detail']['companyEmail']
 
@@ -761,8 +1283,10 @@ def Cart(request):
             """
 
         elif localId in IndividualRef:
-            IndividualRef = dict(database.child('User').child(
-                'Customer').child('Individual').child(str(localId)).get().val())
+            # IndividualRef = dict(database.child('User').child(
+            #     'Customer').child('Individual').child(str(localId)).get().val())
+            IndividualRef = db.reference('User').child('Customer').child(str(localId)).get()
+
             fullName = IndividualRef['Detail']['fullName']
             email = IndividualRef['Detail']['email']
         
@@ -889,17 +1413,25 @@ def AddToCartButtonOperation(request, timestampid):
     session_Information = auth_.get_account_info(userSession)
     localId = session_Information['users'][0]['localId']
 
-    companyRef = dict(database.child('User').child(
-        'Customer').child('Company').get().val())
-    IndividualRef = dict(database.child('User').child(
-        'Customer').child('Individual').get().val())
+    # companyRef = dict(database.child('User').child(
+    #     'Customer').child('Company').get().val())
+    companyRef = db.reference('User').child('Company').get()
+    # IndividualRef = dict(database.child('User').child(
+    #     'Customer').child('Individual').get().val())
 
-    companyRef = companyRef.keys()
-    IndividualRef = IndividualRef.keys()
+    IndividualRef = db.reference('User').child('Customer').get()
 
+    
+    
+    companyRef = list(companyRef.keys())
+    IndividualRef =list( IndividualRef.keys())
+
+
+   
     if localId in companyRef:
-        companyRef = dict(database.child('User').child(
-            'Customer').child('Company').child(str(localId)).get().val())
+        
+        companyRef = db.reference('User').child('Company').child(str(localId)).get()
+
         fullName = companyRef['Detail']['companyName']
         email = companyRef['Detail']['companyEmail']
 
@@ -913,8 +1445,9 @@ def AddToCartButtonOperation(request, timestampid):
         """
 
     elif localId in IndividualRef:
-        IndividualRef = dict(database.child('User').child(
-            'Customer').child('Individual').child(str(localId)).get().val())
+        
+        IndividualRef = db.reference('User').child('Customer').child(str(localId)).get()
+
         fullName = IndividualRef['Detail']['fullName']
         email = IndividualRef['Detail']['email']
     at =  email.find('.')
@@ -1026,8 +1559,8 @@ def DashBoardStaff(request):
     context = {}
     try: # number of customer
         
-        ref = db.reference('User').child('Customer').child('Company')
-        ref2 = db.reference('User').child('Customer').child('Individual')
+        ref = db.reference('User').child('Company')
+        ref2 = db.reference('User').child('Customer')
 
 
         ref = list(ref.get().keys())
@@ -1270,9 +1803,11 @@ def PurchasingItems(request, timestamp):
 
     else:
         ref = db.reference('MarketActivity')
-
         for emails in ref.get():
+            
+            
             data = ref.get()[emails]
+            
             for items in data:
                 try:
                     if items != "Purchased":
@@ -1280,7 +1815,7 @@ def PurchasingItems(request, timestamp):
                     
                     PurchasedItem = data[items]
 
-                    ref = db.reference('MarketActivity').child(emails).child('Purchased')
+                    ref = db.reference('MarketActivity').child(emails)
 
                     FLAG = False
                     try: # to check if  required is product
@@ -1335,7 +1870,7 @@ def PurchasingItemsCustViewPage(request, timestampid):
             FLAG = False
             for types in data:
                 infns = data[types]
-
+                
                 if types != 'Purchased':
                     continue
 
@@ -1361,35 +1896,39 @@ def PurchasingItemsCustViewPage(request, timestampid):
                         productName = prod.get()['prodcutname']
                         prodcutType = prod.get()['prodcutType']
                         
-                        Cust = db.reference('User').child('Customer')
+                        
+
+                        Cust = db.reference('User')
                         dt = Cust.get()
                         
                         try:
                             dtc =  dt['Company']
+                            
                             cmp = list(dtc.keys())
                             customerId = (ref.get()['customerTimestamp']).strip()
                            
                             if customerId in cmp:
-                                Cust = db.reference('User').child('Customer').child('Company').child(customerId).child('Detail')
+                                Cust = db.reference('User').child('Company').child(customerId).child('Detail')
                                 Cust= Cust.get()
 
                                 customerName = Cust['companyName']
                                 customerPhoneNumber = Cust['companyPhoneNumber']
                                 customerEmail = Cust['companyEmail']
                                 
+                                
                         except: #
                             pass
                         
                         try:
                             
-                            dt =  dt['Individual']
+                            dt =  dt['Customer']
                             
                             cmp = list(dt.keys())
                             customerId = (ref.get()['customerTimestamp']).strip()
                            
                             
                             if customerId in cmp:
-                                Cust = db.reference('User').child('Customer').child('Individual').child(customerId).child('Detail')
+                                Cust = db.reference('User').child('Customer').child(customerId).child('Detail')
                                 Cust= Cust.get()
                                 
                                 customerName = Cust['fullName']
@@ -1413,7 +1952,10 @@ def PurchasingItemsCustViewPage(request, timestampid):
                         except:
                             pass
                         
+                        
+                        
                         if not CHECKER:
+                            
                             crtref = db.reference('PendingActivity').child(emails).push(timestampid.strip())
                         
                         break
@@ -1421,7 +1963,11 @@ def PurchasingItemsCustViewPage(request, timestampid):
                 except:
                     pass
                 
+
+                print(FLAG)
+                
                 if not FLAG:
+                    
                     try:
                         Service =list( infns['Services'].keys() )
                         
@@ -1441,7 +1987,7 @@ def PurchasingItemsCustViewPage(request, timestampid):
                             prodcutType = prod.get()['serviceType']
 
 
-                            Cust = db.reference('User').child('Customer')
+                            Cust = db.reference('User')
                             dt = Cust.get()
                             
                             try:
@@ -1451,7 +1997,7 @@ def PurchasingItemsCustViewPage(request, timestampid):
                             
 
                                 if customerId in cmp:
-                                    Cust = db.reference('User').child('Customer').child('Company').child(customerId).child('Detail')
+                                    Cust = db.reference('User').child('Company').child(customerId).child('Detail')
                                     Cust= Cust.get()
 
                                     customerName = Cust['companyName']
@@ -1462,13 +2008,13 @@ def PurchasingItemsCustViewPage(request, timestampid):
                                 pass
 
                             try:
-                                dt =  dt['Individual']
+                                dt =  dt['Customer']
                                 cmp = list(dt.keys())
                                 customerId = (ref.get()['customerTimestamp']).strip()
                             
                                 
                                 if customerId in cmp:
-                                    Cust = db.reference('User').child('Customer').child('Individual').child(customerId).child('Detail')
+                                    Cust = db.reference('User').child('Customer').child(customerId).child('Detail')
                                     Cust= Cust.get()
 
                                     customerName = Cust['fullName']
@@ -1497,6 +2043,7 @@ def PurchasingItemsCustViewPage(request, timestampid):
                             break
                     except:
                         pass
+
         temp = {
             "customerName" :customerName,
             "customerEmail":customerEmail,
@@ -1505,11 +2052,12 @@ def PurchasingItemsCustViewPage(request, timestampid):
             "productDescription":productDescription,
             "productName":productName
         }          
-
+        
         context= temp
-
-    except Exception as rty:
-        print(rty)
+        
+    except Exception as e:
+        # print(e)
+        # print(rty)
         print("##################################### 4987")
     return render(request, "MainApplication/private/staff/CustomerDetailInfnShowingPage.html", context)
 
@@ -1955,7 +2503,7 @@ def ItemDeleter(reff):
     except Exception as e:
         print(e)
         print("######################################### 355 errrrr")
-        return
+        
 
 reff = []
 def DeleteItem(request, timestampid):
@@ -2156,7 +2704,7 @@ def DeleteCartItems(request, timestampid):
 def SaveItemRating(request, timestampid):
     
     global reff
-    print(request.POST)
+    # print(request.POST)
     if timestampid.strip() != '-1' and timestampid.strip() != '1':
         import datetime
         dt = datetime.datetime.now().strftime('%d-%B-%Y')

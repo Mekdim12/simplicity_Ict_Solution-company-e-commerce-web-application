@@ -10,20 +10,21 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <!-- ---- Include the above in your HEAD tag -------- -->
 <br>
-<script>
 
-    let x= document.getElementById('log')
-    alert()
-</script>
+
 <div class="container-fluid register">
                 <div class="row">
                     <div class="col-md-3 register-left">
                         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-                        <h3>Welcome</h3>
-                        <p>You are 30 seconds away from earning your own money!</p>
-                        <input type="submit" name="" value="Register"/><br/>
+                        <h3>Welcome Back </h3>
+                        <p>You are 30 seconds away from  Entering Simplictiy Ict Solution Official  website!</p>
+                        <button class="btnRegister"  style="background-color:white" > <a style="color: black;" href=" {% url 'signup' %}" >Register </a>  </button> 
+                         <!-- <input type="" name="" value="Register"/> -->
+                            <br/>
+                        
                     </div>
                     <div class="col-md-9 register-right">
                         <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
@@ -41,19 +42,29 @@
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 
                                 
-                                <h3 class="register-heading"> Login As A Guest</h3>
+                                <h3 class="register-heading"> Login As A Guest Customer </h3>
+                                
                                 <div class="row register-form center-block">
                                     <div class="col-xxl-9 ">
+                                        <span id="spanTOOMANYATTEMPT" style="color: red; display: none;"> * Too many Attempts! , This account is blocked so try again later </span>
+                                        
+                                        <span id="spanEMAIL" style="color: red; display: none;"> * Incorrect Email, Check your Email First </span>
+                                        <span id="spanEMAIL2" style="color: red; display: none"> * There is no Such Email Registered , Please SignUp Before You Attempt Loging! </span>
+                                        
                                         <div class="form-group align-items-center">
                                             <input type="email" class="form-control" name="guest_Email" placeholder="Email" value="" />
                                         </div>
-                                        
+                                        <span id="spanPASS2" style="color: red; display: none"> * Incorrect password , Check Your Password First </span>
+                
+                                        <span id="spanPASS" style="color: red; display: none;"> * Missing password , Check Your Password First </span>
+                
                                         <div class="form-group">
                                             <input type="password" class="form-control" name= "guest_password" placeholder="Password *" value="" />
                                         </div>
 
                                         <div class="form-group">
                                             <div class="maxl">
+                                                
                                                 <label class="radio inline"> 
                                                     <input type="checkbox" name="remberme" value="on" unchecked>
                                                     <span> Remember Me </span>
@@ -69,7 +80,7 @@
 
                                             <div class="col-4"></div>
                                             <div class="col-4">
-                                                <input type="submit" " class="btnRegister"  value="Login"/>
+                                                <input type="submit"  class="btnRegister"  value="Login"/>
                                 
                                             </div>
                                             <div class="col-4"></div>
@@ -84,10 +95,21 @@
                                 <h3 class="register-heading"> Login As A Staff</h3>
                                 <div class="row register-form center-block">
                                     <div class="col-xxl-9 ">
+
+                                        <span id="spanTOOMANYATTEMPT" style="color: red; display: none;"> * Too many Attempts! , This account is blocked so try again later </span>
+                                        
+                                        <span id="spanEMAIL" style="color: red; display: none;"> * Incorrect Email, Check your Email First </span>
+                                        <span id="spanEMAIL2" style="color: red; display: none"> * There is no Such Email Registered , Please SignUp Before You Attempt Loging! </span>
+                                        
+
                                         <div class="form-group align-items-center">
                                             <input type="email" name = "UserName_staff" class="form-control" placeholder="User Name/ ID" value="" />
                                         </div>
                                         
+                                        <span id="spanPASS2" style="color: red; display: none"> * Incorrect password , Check Your Password First </span>
+                
+                                        <span id="spanPASS" style="color: red; display: none;"> * Missing password , Check Your Password First </span>
+                
                                         <div class="form-group">
                                             <input type="password" class="form-control"  name="password_staff" placeholder="Password *" value="" />
                                         </div>
@@ -107,8 +129,10 @@
                                     <div class="row">
 
                                             <div class="col-4"></div>
+                                            
                                             <div class="col-4">
-                                                <input type="submit" class="btnRegister"  value="Login"/>
+                                                
+                                                <input type="submit"  class="btnRegister"  value="Login2"/>
                                 
                                             </div>
                                             <div class="col-4"></div>
@@ -122,8 +146,33 @@
                     </div>
                 </div>
 </div>
-  
+    {% for dat in error %}
+            <script>
+            
+           
+                if("{{ dat }}" == 1){
+                    document.querySelector("#spanPASS").style.display = "inline-block";
+                    
+                }else if("{{ dat }}" == 2 ){
+                    document.querySelector("#spanEMAIL").style.display = "inline-block";
+                    
+                }else if("{{ dat }}" == 3 ){
+                    document.querySelector("#spanTOOMANYATTEMPT").style.display = "inline-block";
+                    
+                }else if("{{ dat }}" == 4 ){
+                    document.querySelector("#spanPASS2").style.display = "inline-block";
+                    
+                }
+                else if("{{ dat }}" == 5 ){
+                    document.querySelector("#spanEMAIL2").style.display = "inline-block";
+                    
+                }
+        </script>
     
+
+            
+            </script>
+    {% endfor %}
 
                                
                               

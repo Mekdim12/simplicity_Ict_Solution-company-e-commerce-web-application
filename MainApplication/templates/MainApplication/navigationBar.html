@@ -1,29 +1,99 @@
-<nav class="navbar navbar-expand-custom navbar-mainbg">
-    <a class="navbar-brand navbar-logo" href="#">Navbar</a>
+<nav class="navbar navbar-expand-custom navbar-mainbg publicusenavbar">
+    <a class="navbar-brand navbar-logo" href="{% url 'main' %}">Simplicty Ict  Solution</a>
     <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <i class="fas fa-bars text-white"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-            <li class="nav-item">
-                <a class="nav-link"  href="{% url 'login' %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+            <li class="nav-item one  orginhome">
+                <a class="nav-link"  href="{% url 'main' %}"><i class="fas fa-tachometer-alt"></i>Home</a>
             </li>
-            <li id="log" class="nav-item ">
-                <a class="nav-link" href=""><i class="far fa-address-book"></i>Address Book</a>
+            <!-- <li class="nav-item orginservices">
+                <a class="nav-link" href="{% url 'main' %}"><i class="far fa-clone"></i>Services</a>
+            </li> -->
+            <li class="nav-item  orginaboutUs active">
+                <a class="nav-link" href="{% url 'PublicAboutUs' %}"><i class="far fa-calendar-alt"></i>About Us</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Components</a>
+            <li class="nav-item orgincontactus">
+                <a class="nav-link" href="{% url 'PublicContactUs' %}"><i class="far fa-clone"></i>Contact Us</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Calendar</a>
+            
+            <li class="nav-item orginsingup ">
+                <a class="nav-link" href="{% url 'signup' %}"><i class="far fa-chart-bar"></i>Signup</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
+            <li class="nav-item orginsignin">
+                <a class="nav-link" href="{% url 'login' %}"><i class="far fa-copy"></i>Signin</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-copy"></i>Documents</a>
+
+
+        
+            
+        </ul>
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-expand-custom navbar-mainbg dashusenavbar" style="visibility: hidden;">
+    <a class="navbar-brand navbar-logo" href="{% url 'main' %}">Simplicty Ict  Solution</a>
+    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-bars text-white"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+           
+            <li class="nav-item one  orginhome">
+                <a class="nav-link"  href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i>Dash Board</a>
             </li>
+            <li class="nav-item orginservices">
+                <a class="nav-link" href="{% url 'shop' %}"><i class="far fa-clone"></i>Shop</a>
+            </li>
+            <li class="nav-item orginsingup ">
+                <a class="nav-link" href="{% url 'cart' %}"><i class="far fa-chart-bar"></i>Cart</a>
+            </li>
+            
+        
+            
+            
+
+
+            <!-- for customer dashboard -->
+
+            
+        </ul>
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-expand-custom navbar-mainbg privateusenavbar" style="visibility: hidden;">
+    <a class="navbar-brand navbar-logo" href="{% url 'main' %}">Simplicty Ict  Solution</a>
+    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-bars text-white"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+            
+            <li class="nav-item one  orginhome">
+                <a class="nav-link"  href="{% url 'dashboardstaff' %}"><i class="fas fa-tachometer-alt"></i>Dash Board</a>
+            </li>
+            <li class="nav-item one  orginhome">
+                <a class="nav-link"  href="{% url 'productandservice' %}"><i class="far fa-clone"></i>Product & Service</a>
+            </li>
+            {% with my_var="my string" %}
+            
+                <li class="nav-item one  orginhome">
+                    <a class="nav-link figat"  href="{% url  'purchasingitems' 'viewpage' %}"><i class="far fa-clone"></i>customer Activity Panel</a>
+                </li>
+            {% endwith %}
+            
+        
+
+        
+            
+           
+            
         </ul>
     </div>
 </nav>

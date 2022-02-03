@@ -8,62 +8,85 @@
 
 
 
-<div class="container-fluid wholecontainer">
-  <div class="row">
-    <div class="col-6 infnholder">
-      <q class="contactusquote"> We love meeting new people and helping them to solve  thier complex requirments.so we would like u to contact us!</q>
-      <h3 class="contactheading"> Contact Information</h3>
-      <div class="contactinfn">
+  
 
-
-        <p><span>phone Number :</span> 0925555555555 </p>
-        <p> <span> Number :</span> 011 338 14 55</p>
-        <p><span>fax :</span> 15 6845 6 24464 </p>
-
-        <address class="contactingwebadd">
-          <p> <span> email: </span> simplicityexample@gmal.com </p>
-          <br>
-          <p> <span> complany email: </span>simplictyorg@yahoo.com </p>
-          
-          <h4 class="contactheading">Webstite address</h4>
-          <p> offical site : <a href="simplicity.org.in">simplicity.org.in</a></p>
-          <p> gps tracking site : <a href="tracipedia.com">trapperdia class.com</a></trapperdia></a></p>
-        </address>
-      </div>
-      
-
-      <div class="feedbackinfn">
+  <div class="container-fluid wholecontainer ">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 col-lg-6"  style=" height: 100% ; ">
         
-        <form method="post" class="from-inline mycontactusarea">
-          {% csrf_token %}
-          <p id="feedcontactus">Your FeedBacks:</p>
-          <div class="from-group my-2">
-            <label for="name">Your Name </label>
-            <input class ="form-control" type="text" name="name" id='name' placeholder="Enter Your Name">
+          <q class="contactusquote"> We  love meeting new people and helping them to solve  thier complex requirments.so we would like u to contact us!</q>
+          <h3 class="contactheading"> Contact Information</h3>
+          <div class="contactinfn">
+    
+    
+            <p><span>phone Number :</span> 0925555555555 </p>
+            <p> <span> Number :</span> 011 338 14 55</p>
+            <p><span>fax :</span> 15 6845 6 24464 </p>
+    
+            <address class="contactingwebadd">
+              <p> <span> email: </span> simplicityexample@gmal.com </p>
+              <br>
+              <p> <span> complany email: </span>simplictyorg@yahoo.com </p>
+              
+              <h4 class="contactheading">Webstite address</h4>
+              <p> offical site : <a href="simplicity.org.in">simplicity.org.in</a></p>
+              <p> gps tracking site : <a href="tracipedia.com">trapperdia class.com</a></trapperdia></a></p>
+            </address>
           </div>
-          <div class=" w-100 from-group my-2">
-            <textarea class="form-control w-100" name = "comment" style="resize:none" cols="80" rows="10" placeholder=" If there is anythings  want to say we would like to hear it from you!" ></textarea>
-        </div>
-          <br>
-          <div class="form-group">
-            <button class="form-control  btn btn-primary btn-sm" type="submit">Submit</button>
+          
+    
+          <div class="feedbackinfn" >
+            
+            <form method="POST" class="from-inline mycontactusarea">
+              {% csrf_token %}
+              <p id="feedcontactus">Your FeedBacks:</p>
+              <div class="from-group my-2">
+                <label for="name">Your Name </label>
+                <span id="spanNAME" style="color: red; visibility: hidden;"> * Enter your Name First </span>
+                <input class ="form-control" type="text" name="name" id='name' placeholder="Enter Your Name">
+              </div>
+              <div class=" w-100 from-group my-2">
+                <span id="spanCOMMENT" style="color: red; visibility: hidden;"> * Enter your Comment First </span>
+                <textarea class="form-control w-100" name = "comment" style="resize:none" cols="80" rows="10" placeholder=" If there is anythings  want to say we would like to hear it from you!" ></textarea>
+            </div>
+              <br>
+              <div class="form-group">
+                <button class="form-control  btn btn-primary btn-sm" type="submit">Submit</button>
+              </div>
+            </form>
           </div>
-        </form>
+       
+      
+      </div>
+      <div class="col-md-6 col-sm-12  col-lg-6" >
+        <iframe
+        src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d7881.157621368728!2d38.78152607241605!3d9.010846470592337!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x164b85091bba7025%3A0xc4c052f755971a73!2sGolagol%20Building%2C%20Golagol%2C%2022%2C%20Addis%20Ababa!3m2!1d9.0155525!2d38.7871168!4m5!1s0x164b85eb526c149d%3A0x2e2986aba278f311!2s2Q4M%2BFW3%20Green%20valley%20haya%20hulet%2C%20Addis%20Ababa!3m2!1d9.0060669!2d38.7847109!5e0!3m2!1sen!2set!4v1630081867052!5m2!1sen!2set"
+        width="100%" height="100%" style="border:1px;" allowfullscreen="true" loading="">
+      </iframe>
       </div>
     </div>
 
-    <div class="col-5 mapsection">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d7881.157621368728!2d38.78152607241605!3d9.010846470592337!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x164b85091bba7025%3A0xc4c052f755971a73!2sGolagol%20Building%2C%20Golagol%2C%2022%2C%20Addis%20Ababa!3m2!1d9.0155525!2d38.7871168!4m5!1s0x164b85eb526c149d%3A0x2e2986aba278f311!2s2Q4M%2BFW3%20Green%20valley%20haya%20hulet%2C%20Addis%20Ababa!3m2!1d9.0060669!2d38.7847109!5e0!3m2!1sen!2set!4v1630081867052!5m2!1sen!2set"
-        width="650" height="100%" style="border:1px;" allowfullscreen="" loading="">
-      </iframe>
-
-
-    </div>
-
-    </div>
   </div>
 
+  {% for dat in flag %}
 
+    <script>
+      
 
+      if("{{ dat }}" == 1){
+        document.querySelector("#spanNAME").style.visibility = "visible";
+        
+      }else if("{{ dat }}" == 2 ){
+        document.querySelector("#spanCOMMENT").style.visibility = "visible";
+        
+      }else if("{{ dat }}" == 3 ){
+        
+        document.querySelector("#spanNAME").style.visibility = "visible";
+        document.querySelector("#spanCOMMENT").style.visibility = "visible";
+        }
+
+    </script>
+    
+  {% endfor %}
+ 
   {% endblock %}

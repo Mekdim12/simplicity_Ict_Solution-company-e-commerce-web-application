@@ -6,11 +6,12 @@
 {% block content %}
 <script>
 
-    window.addEventListener("load", function () {
-        document.getElementById("dashboard").style.removeProperty("display");
-        document.getElementById("signup").style.display = "none";
+window.addEventListener("load", function () {
+      
+      document.querySelector(".publicusenavbar").style.display = "none"
+      document.querySelector(".dashusenavbar").style.visibility = "visible"
 
-    }, false);
+   }, false);
 
 </script>
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">  

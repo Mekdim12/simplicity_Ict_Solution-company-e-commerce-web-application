@@ -7,8 +7,10 @@
 <script>
 
    window.addEventListener("load", function () {
-      document.getElementById("dashboard").style.removeProperty("display");
-      document.getElementById("signup").style.display = "none";
+      
+      document.querySelector(".publicusenavbar").style.display = "none"
+      document.querySelector(".dashusenavbar").style.visibility = "visible"
+      document.querySelector(".privateusenavbar").style.display = "none"
 
    }, false);
 
@@ -26,7 +28,7 @@
             </div>
 
             <div class="col-lg-10 ">
-
+               {% csrf_token %}
                <div class="row">
                   <div class="col-10 mt-3 mx-0 text-left text-black ">
                      <div class="" >
@@ -37,7 +39,36 @@
 
                   <div class="col-2 mt-3 mx-0 text-left text-black ">
                      <div class="" >
-                        <h5 class="card-title text-left">5:55:55 pm</h5>
+                        <h5 class="card-title text-left" id="clock"></h5>
+
+                        <script type="text/javascript">
+                           setInterval(displayclock,500);
+                           function displayclock(){
+                             var time=new Date();
+                             var hrs=time.getHours();
+                             var min=time.getMinutes();
+                             var sec=time.getSeconds();
+                             var en='AM';
+                             if(hrs > 12){
+                               hrs=hrs - 12;
+                             }
+                             if(hrs==0){
+                               hrs = 12;
+                             }
+                             if(hrs< 10){
+                               hrs= '0' + hrs;
+                             }
+                             if(min< 10){
+                               min= '0' + min;
+                             }
+                             if(sec< 10){
+                               sec= '0' + sec;
+                             }
+                             document.getElementById('clock').innerHTML=hrs + ':' + min + ':' + sec + ' ' + en;
+                           }
+                 
+                 
+                           </script>
                      </div>
                   </div>
 
@@ -46,45 +77,49 @@
 
 
                <div class="row mt-4 ">
-                  <div class="col-4 mr-1" >
+                  <div class="col-lg-1 col-md-1"></div>
+                  <div class="col-lg-3 col-md-3">
                      <div class="row card-header text-center bg-primary">
                         <div class="card-tittle ">
-                           <h1>Total Orders </h1>
+                           <h1> Purchased Items</h1>
                         </div>
                      </div>
                      <div class="row card-body text-center bg-info">
                         <div class="card-tittle">
-                           <h3> 5 </h3>
+                           <h3>{{ accept }} </h3>
                         </div>
                      </div>
 
                   </div>
-                  <div class="col-4 mr-1" >
+                  <div class="col-lg-1 col-md-1"></div>
+                  <div class="col-lg-3 col-md-3" >
                      <div class="row card-header text-center bg-primary">
                         <div class="card-tittle ">
-                           <h1>Total Orders </h1>
+                           <h1>Pending Proucts </h1>
+                        </div>
+                     </div>
+                     <div class="row card-body text-center bg-info" >
+                        <div class="card-tittle">
+                           <h3> {{ prod }} </h3>
+                        </div>
+                     </div>
+
+                  </div>
+                  <div class="col-lg-1 col-md-1"></div>
+                  <div class="col-lg-3  col-md-3">
+                     <div class="row card-header text-center bg-primary" >
+                        <div class="card-tittle ">
+                           <h1> Pending Services  </h1>
                         </div>
                      </div>
                      <div class="row card-body text-center bg-info">
                         <div class="card-tittle">
-                           <h3> 5 </h3>
+                           <h3> {{ serv }} </h3>
                         </div>
                      </div>
 
                   </div>
-                  <div class="col-4 " >
-                     <div class="row card-header text-center bg-primary">
-                        <div class="card-tittle ">
-                           <h1>Total Orders </h1>
-                        </div>
-                     </div>
-                     <div class="row card-body text-center bg-info">
-                        <div class="card-tittle">
-                           <h3> 5 </h3>
-                        </div>
-                     </div>
 
-                  </div>
                </div>
 
             </div>
@@ -115,7 +150,14 @@
                </tr>
             </thead>
             <tbody class="table-success">
+               
+               
+              
+               {% if products %}
+                  
+              
                {% for key , value in products.items %}
+               
                <tr style="line-height: 70px;"></tr>
                <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
                   src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
@@ -139,26 +181,16 @@
                   {% endfor %}
                         
                 </tr>
-               {% endfor %}
-               <!-- <tr style="line-height: 70px;">
-                  <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
-                        src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
-                  </td>
-                  <td> this Name Holder </td>
-                  <td> this Date Holder</td>
-                  <td> this Status Holder </td>
-               </tr>
-
-               <tr style="line-height: 70px;">
-                  <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
-                        src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
-                  </td>
-                  <td> this Name Holder </td>
-                  <td> this Date Holder</td>
-                  <td> this Status Holder </td>
-               </tr> -->
-
-
+                  {% endfor %}
+               {% endif  %}
+               {% if not  products %}
+                  <tr style="line-height: 70px;" >
+                     <td> NO products Purchased </td>
+                  </tr>
+                   
+               {% endif %}
+               
+              
                
 
             </tbody>
@@ -184,52 +216,41 @@
             </tr>
          </thead>
          <tbody class="table-success">
+            
+            {% if services %}
+               {% for key,val in services.items %}
+               <tr style="line-height: 70px;">
+                  <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
+                     src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
+                  </td>
+                  {% for k,v in val.items %}
+                     {%if k == 'servicename' %}
+                        <td> {{ v }}</td>
+                     {% endif %}
+                  {% endfor %}
 
-            {% for key,val in services.items %}
-            <tr style="line-height: 70px;">
-               <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
-                  src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
-               </td>
-               {% for k,v in val.items %}
-                  {%if k == 'servicename' %}
-                     <td> {{ v }}</td>
-                  {% endif %}
-               {% endfor %}
+                  {% for k,v in val.items %}
+                     {%if k == 'createdOn' %}
+                        <td> {{ v }}</td>
+                     {% endif %}
+                  {% endfor %}
 
-               {% for k,v in val.items %}
-                  {%if k == 'createdOn' %}
-                     <td> {{ v }}</td>
-                  {% endif %}
-               {% endfor %}
-
-               {% for k,v in val.items %}
-                  {%if k == 'status' %}
-                     <td> {{ v }}</td>
-                  {% endif %}
-               {% endfor %}
-                
+                  {% for k,v in val.items %}
+                     {%if k == 'status' %}
+                        <td> {{ v }}</td>
+                     {% endif %}
+                  {% endfor %}
                   
-                  
-               </tr>
-            {% endfor %}
-            <!-- <tr style="line-height: 70px;">
-               <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
-                  src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
-               </td> 
-               <td> Name </td>
-               <td> Date Holder Holder </td>
-               <td> Status Holder</td>
+                     
+                     
+                  </tr>
                
-            </tr>
-            <tr style="line-height: 70px;">
-               <td> <img style="border-radius: 50%;  width: 75px; height: 75px;"
-                  src="https://th.bing.com/th/id/OIP.g34J7fPCzu1XJ69UX-EnsAAAAA?w=176&h=180&c=7&r=0&o=5&pid=1.7">
-               </td> 
-               <td> Name </td>
-               <td> Date Holder Holder </td>
-               <td> Status Holder</td>
-               
-            </tr> -->
+               {% endfor %}
+            {% endif %}
+            {% if not services %}
+                 <tr  style="line-height: 70px;"><td> No Services Purchased </td></tr>
+            {% endif %}
+           
          </tbody>
          
          </table>
@@ -258,32 +279,42 @@
             </tr>
          </thead>
          <tbody>
-            {% for key,val in forrating.items %}
+
+            {% if forrating %}
+               {% for key,val in forrating.items %}
+               
+               <tr>
+                  {% for k,v in val.items %}
+                     {% if k == 'name' %}
+                        <td> {{ v }} </td>
+                     {% endif %}
+                  {% endfor %}
+
+                  {% for k,v in val.items %}
+                     {% if k == 'date' %}
+                     <td class="text-center"> {{ v }} </td>
+                     {% endif %}
+                  {% endfor %}
+
+               
+                  <td> <input name="rate" type="number" max="5" min="1"> </td>
+                  <td> <textarea name="comment" id="" cols="30" rows="1"
+                        style="resize: none; line-height: 30px;"></textarea> </td>
+                  <td> <button type="submit"> <a  class="btn btn-sm btn btn-info" href="{% url 'saveitemrating' key  %}"> Save </a> </button></td>
+               
+               </tr>
             
-            <tr>
-               {% for k,v in val.items %}
-                  {% if k == 'name' %}
-                     <td> {{ v }} </td>
-                  {% endif %}
                {% endfor %}
 
-               {% for k,v in val.items %}
-                  {% if k == 'date' %}
-                  <td class="text-center"> {{ v }} </td>
-                  {% endif %}
-               {% endfor %}
+            {% endif %}
 
-             
-               <td> <input name="rate" type="number" max="5" min="1"> </td>
-               <td> <textarea name="comment" id="" cols="30" rows="1"
-                     style="resize: none; line-height: 30px;"></textarea> </td>
-               <td> <button type="submit"> <a  class="btn btn-sm btn btn-info" href="{% url 'saveitemrating' key  %}"> Save </a> </button></td>
-            
-            </tr>
-           
-            {% endfor %}
-            
-
+            {% if not forrating %}
+                  <tr> 
+                     <td></td>
+                     <td class="text-center" style="color: red;"> Nothing to Give Feedback For </td>
+                     <td></td>   
+                  </tr>
+            {% endif %}
 
             
          </tbody>

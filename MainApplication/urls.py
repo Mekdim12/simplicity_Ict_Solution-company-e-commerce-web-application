@@ -11,8 +11,9 @@ urlpatterns = [
     path('public/aboutus',views.PublicAboutUs , name ='PublicAboutUs'),
     path('public/contactus', views.PublicContactUs, name ='PublicContactUs'),
     path('login/', views.Login, name ='login'),
-    path('signup',views.SignUp, name = 'signup'),
+    path('signup', views.SignUp, name = 'signup'),
     path('public/dashboard',views.dashBoard, name="dashboard"),
+    
     path('public/shop',views.Shop, name="shop"),
     path('public/cart/',views.Cart, name="cart"),
     path('public/nocart',views.NoCart, name="nocart"),

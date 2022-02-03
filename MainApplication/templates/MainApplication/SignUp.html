@@ -16,7 +16,8 @@
             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
             <h3>Welcome</h3>
             <p>You are 30 seconds away from earning your own money!</p>
-            <input type="submit" name="" value="Login" /><br />
+            <button class="btnRegister"  style="background-color:white" > <a style="color: black;" href=" {% url 'login' %}" >Login   </button></a> 
+            <!-- <input type="submit" name="" value="Login" /><br /> -->
         </div>
         <div class="col-md-9 register-right">
             <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
@@ -38,16 +39,22 @@
                     <h3 class="register-heading">Apply as a Idividual</h3>
                     <div class="row register-form">
                         <div class="col-md-6">
+                            <span id="HomePass2" style=" color:red; display:none">* The password  You Entred is Too week Try Something different </span>
                             <div class="form-group">
+                                <span id="HomeFirstName" style=" color:red; display:none">* Enter Your  First Name Correctly </span>
                                 <input type="text" class="form-control" name="First_Name" placeholder="First Name *" value="" />
                             </div>
                             <div class="form-group">
+                                <span id="HomeLastName" style=" color:red; display:none">* Enter Your Last Name Correctly </span>
+                                
                                 <input type="text" class="form-control" name="Last_Name" placeholder="Last Name *" value="" />
                             </div>
                             <div class="form-group">
+                                <span id="HomePassword1" style=" color:red; display:none">* Enter Your Pasword </span>
                                 <input type="password" class="form-control" name="Password_One"placeholder="Password *" value="" />
                             </div>
                             <div class="form-group">
+                                <span id="HomePassword2" style=" color:red; display:none">* repeat the above password  </span>
                                 <input type="password" class="form-control" name="Password_Two" placeholder="Confirm Password *" value="" />
                             </div>
                             <div class="form-group">
@@ -65,9 +72,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <span id="HomeEmail" style=" color:red; display:none">* Enter Your Email Correctly </span>
+                                <span id="HomeEmail2" style=" color:red; display:none">* Email You Entered is already in Use </span>
                                 <input type="email" class="form-control" name="Email" placeholder="Your Email *" value="" />
                             </div>
                             <div class="form-group">
+                                <span id="HomePhoneNumber" style=" color:red; display:none">* Enter Phone Number Correctly </span>
                                 <input type="text" minlength="10" maxlength="10" name="Phone_Number" class="form-control"
                                     placeholder="Your Phone *" value="" />
                             </div>
@@ -101,10 +111,9 @@
                             <div class="col-1"> <input type="checkbox" name="agreement" unchecked></div>
                             <div class="col-9">
                                
-                                <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur neque qui
-                                 aliquam repudiandae dolorum dignissimos porro recusandae eos! Eaque, voluptatum
-                                 nesciunt? Dolorum repudiandae sint laudantium corporis libero eos consequuntur
-                                 nostrum.</p>
+                                <p class="text-start"> by pressing Login you are accepting the companies licence and agreement.
+                                    <a href="#">Read Licence and Agreement </a>
+                                </p>
                             </div>
                             <div class="col-1"></div>
                        </div>
@@ -123,27 +132,39 @@
                     <h3 class="register-heading">Apply as a Company</h3>
                     <div class="row register-form">
                         <div class="col-md-6">
+                            <span id="companyPasstwo2" style=" color:red; display:none">* The password  You Entred is Too week Try Something different </span>
                             <div class="form-group">
+
+                                <span id="CompanyFullName" style=" color:red; display:none">Enter Your Full Name Correctly </span>
                                 <input type="text" class="form-control" name="Full_Name_company" placeholder="Full Name *" value=""  />
                             </div>
-
                             <div class="form-group">
+                                <span id="CompanyEmail" style=" color:red; display:none">Enter Your  Email Correctly </span>
+                                <span id="CompanyEmail2" style=" color:red; display:none">Email You Entred Is Already Exists </span>
+                                 
                                 <input type="email" class="form-control" name="Company_Email" placeholder="Email *" value="" />
                             </div>
                             <div class="form-group">
+                                <span id="CompanyPhoneNumber" style=" color:red; display:none">Enter Company Phone Number Correctly </span>
+                                
                                 <input type="tel" maxlength="10" name="Phone_Number_Company" minlength="10" class="form-control"
                                     placeholder="tele Phone *" value="" />
                             </div>
+                                
                             <div class="form-group">
+                                <span id="CompanyName" style=" color:red; display:none">Enter Company Name Correctly </span>
                                 <input type="text" class="form-control"  name="Company_Name" placeholder="Company Name*" value="" />
                             </div>
 
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+
+                                <span id="CompanyPassone style=" color:red; display:none">Enter New password Correctly </span>
                                 <input type="password" name="Password_One_company" class="form-control" placeholder="Password *" value="" />
                             </div>
                             <div class="form-group">
+                                <span id="Companypasstwo" style=" color:red; display:none">Enter The Above Password Again </span>
                                 <input type="password"  name="Password_Two_company" class="form-control" placeholder="Confirm Password *" value="" />
                             </div>
                             <div class="form-group">
@@ -176,10 +197,9 @@
                             <div class="col-1"> <input type="checkbox" name="agreement" unchecked></div>
                             <div class="col-9">
                                
-                                <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur neque qui
-                                 aliquam repudiandae dolorum dignissimos porro recusandae eos! Eaque, voluptatum
-                                 nesciunt? Dolorum repudiandae sint laudantium corporis libero eos consequuntur
-                                 nostrum.</p>
+                                <p class="text-start"> by pressing Login you are accepting the companies licence and agreement.
+                                    <a href="#">Read Licence and Agreement </a>
+                                </p>
                             </div>
                             <div class="col-1"></div>
                        </div>
@@ -192,5 +212,56 @@
 
 </div>
 
+{% for dat in error %}
+    <script>
+        
+        
 
+        if( "{{  dat }}" == 7){
+            document.querySelector("#HomePassword2").style.display ="inline-block";
+            document.querySelector("#HomePassword1").style.display ="inline-block";
+        }else if ( "{{  dat }}" == 8  ){
+            document.querySelector("#HomeFirstName").style.display ="inline-block";
+            document.querySelector("#HomeLastName").style.display ="inline-block";
+        }else if ( "{{  dat }}" == 9  ){
+
+            document.querySelector("#HomeEmail").style.display ="inline-block";
+
+        }else if( " {{  dat }}" == 6){
+            document.querySelector("#HomePhoneNumber").style.display ="inline-block";
+        }else if( " {{  dat }}" == 1){ 
+            document.querySelector("#CompanyPassone").style.display ="inline-block";
+            document.querySelector("#Companypasstwo").style.display ="inline-block";
+        }else if( " {{  dat }}" == 2){
+            
+            document.querySelector("#CompanyFullName").style.display ="inline-block";
+
+        }else if(( " {{  dat }}" == 3)){
+            alert("am here");
+            document.querySelector("#CompanyEmail").style.display ="inline-block";
+            
+        }else if( " {{  dat }}" == 4){
+            
+            document.querySelector("#CompanyName").style.display ="inline-block";
+            
+        }else if( " {{  dat }}" == 5){
+            
+            document.querySelector("#CompanyPhoneNumber").style.display ="inline-block";
+
+        }else if( " {{  dat }}" == 'a'){
+            
+            document.querySelector("#CompanyEmail2").style.display ="inline-block";
+            document.querySelector("#HomeEmail2").style.display ="inline-block";
+
+        }else if( " {{  dat }}" == 'b'){
+
+            document.querySelector("#HomePass2").style.display ="inline-block";
+            document.querySelector("#companyPasstwo2").style.display ="inline-block";
+        
+        }
+        
+           
+        
+    </script>
+{% endfor %}
 {% endblock %}

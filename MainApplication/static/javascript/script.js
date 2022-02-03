@@ -2,8 +2,6 @@
 
 
 
-
-
   
 
 
@@ -91,16 +89,16 @@ $(".navbar-toggler").click(function () {
 // --------------add active class-on another-page move----------
 jQuery(document).ready(function ($) {
 	// Get current path and find target link
-	var path = window.location.pathname.split("/").pop();
+	// var path = window.location.pathname.split("/").pop();
 	// Account for home page with empty path
 	
-	if (path == '') {
-		path = "{% url 'main' %}" ;
-	}else if(path == 'aboutus'){
-		path = "{% url 'PublicAboutUs' %}"
-	}
+	// if (path == '') {
+	// 	path = "{% url 'main' %}" ;
+	// }else if(path == 'aboutus'){
+	// 	path = "{% url 'PublicAboutUs' %}"
+	// }
 
-	var target = $('#navbarSupportedContent ul li a[href="' + path + '"]');
+	// var target = $('#navbarSupportedContent ul li a[href="' + path + '"]');
 	// Add active class to target link
-	target.parent().addClass('active');
+	// target.parent().addClass('active');
 });
